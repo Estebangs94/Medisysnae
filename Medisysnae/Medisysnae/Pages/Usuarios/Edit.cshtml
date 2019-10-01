@@ -1,0 +1,60 @@
+﻿@page
+@model Medisysnae.Pages.Usuarios.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Usuario</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Usuario.ID" />
+            <div class="form-group">
+                <label asp-for="Usuario.NombreUsuario" class="control-label"></label>
+                <input asp-for="Usuario.NombreUsuario" class="form-control" />
+                <span asp-validation-for="Usuario.NombreUsuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Usuario.Contrasena" class="control-label"></label>
+                <input asp-for="Usuario.Contrasena" class="form-control" />
+                <span asp-validation-for="Usuario.Contrasena" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Usuario.CodMedico" class="control-label"></label>
+                <input asp-for="Usuario.CodMedico" class="form-control" />
+                <span asp-validation-for="Usuario.CodMedico" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Usuario.EstaHabilitado" /> @Html.DisplayNameFor(model => model.Usuario.EstaHabilitado)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Usuario.Email" class="control-label"></label>
+                <input asp-for="Usuario.Email" class="form-control" />
+                <span asp-validation-for="Usuario.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Usuario.FechaCreacion" class="control-label"></label>
+                <input asp-for="Usuario.FechaCreacion" class="form-control" />
+                <span asp-validation-for="Usuario.FechaCreacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

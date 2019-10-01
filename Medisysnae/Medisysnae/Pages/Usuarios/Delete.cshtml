@@ -1,0 +1,58 @@
+﻿@page
+@model Medisysnae.Pages.Usuarios.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Usuario</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Usuario.NombreUsuario)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Usuario.NombreUsuario)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Usuario.Contrasena)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Usuario.Contrasena)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Usuario.CodMedico)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Usuario.CodMedico)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Usuario.EstaHabilitado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Usuario.EstaHabilitado)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Usuario.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Usuario.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Usuario.FechaCreacion)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Usuario.FechaCreacion)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Usuario.ID" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>
