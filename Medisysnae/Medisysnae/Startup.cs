@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Medisysnae.Data;
 
+
 namespace Medisysnae
 {
     public class Startup
@@ -35,6 +36,7 @@ namespace Medisysnae
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
 
             services.AddDbContext<MedisysnaeContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("MedisysnaeContext")));

@@ -1,0 +1,36 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+
+namespace Medisysnae.Models
+{
+    public class Profesional
+    {
+        [Key]
+        [Required(ErrorMessage ="El nombre de usuario es obligatorio")]
+        [Display(Name = "Nombre de usuario")]
+        [RegularExpression("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$", ErrorMessage = "El mail ingresado es inválido")]
+        public string NombreUsuario { get; set; }
+
+        [Required(ErrorMessage = "El campo contraseña es obligatorio")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Contraseña")]
+        [MinLength(8, ErrorMessage ="La contraseña debe ser de al menos 8 caracteres")]
+        public string Password { get; set; }
+
+        public bool EstaHabilitado { get; set; }
+        public bool EsAdministrador { get; set; }
+
+        [Required]
+        public string Nombre { get; set; }
+        [Required]
+        public string Apellido { get; set; }
+        public string Matricula { get; set; }
+        public int Telefono { get; set; }
+
+        public IList<Especialidad> Especialidades { get; set; }
+
+    }
+}

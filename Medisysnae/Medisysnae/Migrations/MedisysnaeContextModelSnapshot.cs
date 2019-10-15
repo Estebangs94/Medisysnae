@@ -19,27 +19,232 @@ namespace Medisysnae.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Medisysnae.Models.Usuario", b =>
+            modelBuilder.Entity("Medisysnae.Models.Atencion", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CodMedico");
+                    b.Property<string>("Descripcion");
 
-                    b.Property<string>("Contrasena");
+                    b.Property<bool>("EstaEliminada");
 
-                    b.Property<string>("Email");
+                    b.Property<DateTime>("FechaHora");
 
-                    b.Property<bool>("EstaHabilitado");
+                    b.Property<string>("MedicoNombreUsuario");
 
-                    b.Property<DateTime>("FechaCreacion");
+                    b.Property<int?>("PacienteID");
 
-                    b.Property<string>("NombreUsuario");
+                    b.Property<int?>("TratamientoID");
 
                     b.HasKey("ID");
 
-                    b.ToTable("Usuario");
+                    b.HasIndex("MedicoNombreUsuario");
+
+                    b.HasIndex("PacienteID");
+
+                    b.HasIndex("TratamientoID");
+
+                    b.ToTable("Atencion");
+                });
+
+            modelBuilder.Entity("Medisysnae.Models.Especialidad", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nombre")
+                        .IsRequired();
+
+                    b.Property<string>("ProfesionalNombreUsuario");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ProfesionalNombreUsuario");
+
+                    b.ToTable("Especialidad");
+                });
+
+            modelBuilder.Entity("Medisysnae.Models.Obrasocial", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nombre");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Obrasocial");
+                });
+
+            modelBuilder.Entity("Medisysnae.Models.Paciente", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Apellido");
+
+                    b.Property<string>("Comentario");
+
+                    b.Property<int>("Dni");
+
+                    b.Property<string>("Domicilio");
+
+                    b.Property<bool>("EstaActivo");
+
+                    b.Property<string>("Mail");
+
+                    b.Property<string>("MedicoNombreUsuario");
+
+                    b.Property<string>("Nombre");
+
+                    b.Property<string>("NroAfiliado");
+
+                    b.Property<int?>("ObraSocialID");
+
+                    b.Property<int>("Telefono");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("MedicoNombreUsuario");
+
+                    b.HasIndex("ObraSocialID");
+
+                    b.ToTable("Paciente");
+                });
+
+            modelBuilder.Entity("Medisysnae.Models.Profesional", b =>
+                {
+                    b.Property<string>("NombreUsuario")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Apellido")
+                        .IsRequired();
+
+                    b.Property<bool>("EsAdministrador");
+
+                    b.Property<bool>("EstaHabilitado");
+
+                    b.Property<string>("Matricula");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired();
+
+                    b.Property<string>("Password")
+                        .IsRequired();
+
+                    b.Property<int>("Telefono");
+
+                    b.HasKey("NombreUsuario");
+
+                    b.ToTable("Profesional");
+                });
+
+            modelBuilder.Entity("Medisysnae.Models.Tratamiento", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CodigoNM");
+
+                    b.Property<string>("Descripcion");
+
+                    b.Property<int?>("EspecialidadID");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired();
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("EspecialidadID");
+
+                    b.ToTable("Tratamiento");
+                });
+
+            modelBuilder.Entity("Medisysnae.Models.Turno", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("FechaHora");
+
+                    b.Property<DateTime?>("FechaHoraCancelacion");
+
+                    b.Property<string>("MedicoNombreUsuario");
+
+                    b.Property<int?>("PacienteID");
+
+                    b.Property<int?>("TratamientoID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("MedicoNombreUsuario");
+
+                    b.HasIndex("PacienteID");
+
+                    b.HasIndex("TratamientoID");
+
+                    b.ToTable("Turno");
+                });
+
+            modelBuilder.Entity("Medisysnae.Models.Atencion", b =>
+                {
+                    b.HasOne("Medisysnae.Models.Profesional", "Medico")
+                        .WithMany()
+                        .HasForeignKey("MedicoNombreUsuario");
+
+                    b.HasOne("Medisysnae.Models.Paciente", "Paciente")
+                        .WithMany()
+                        .HasForeignKey("PacienteID");
+
+                    b.HasOne("Medisysnae.Models.Tratamiento", "Tratamiento")
+                        .WithMany()
+                        .HasForeignKey("TratamientoID");
+                });
+
+            modelBuilder.Entity("Medisysnae.Models.Especialidad", b =>
+                {
+                    b.HasOne("Medisysnae.Models.Profesional")
+                        .WithMany("Especialidades")
+                        .HasForeignKey("ProfesionalNombreUsuario");
+                });
+
+            modelBuilder.Entity("Medisysnae.Models.Paciente", b =>
+                {
+                    b.HasOne("Medisysnae.Models.Profesional", "Medico")
+                        .WithMany()
+                        .HasForeignKey("MedicoNombreUsuario");
+
+                    b.HasOne("Medisysnae.Models.Obrasocial", "ObraSocial")
+                        .WithMany()
+                        .HasForeignKey("ObraSocialID");
+                });
+
+            modelBuilder.Entity("Medisysnae.Models.Tratamiento", b =>
+                {
+                    b.HasOne("Medisysnae.Models.Especialidad")
+                        .WithMany("Tratamientos")
+                        .HasForeignKey("EspecialidadID");
+                });
+
+            modelBuilder.Entity("Medisysnae.Models.Turno", b =>
+                {
+                    b.HasOne("Medisysnae.Models.Profesional", "Medico")
+                        .WithMany()
+                        .HasForeignKey("MedicoNombreUsuario");
+
+                    b.HasOne("Medisysnae.Models.Paciente", "Paciente")
+                        .WithMany()
+                        .HasForeignKey("PacienteID");
+
+                    b.HasOne("Medisysnae.Models.Tratamiento", "Tratamiento")
+                        .WithMany()
+                        .HasForeignKey("TratamientoID");
                 });
 #pragma warning restore 612, 618
         }

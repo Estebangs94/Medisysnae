@@ -1,0 +1,65 @@
+﻿@page
+@model Medisysnae.Pages.Profesionales.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Profesional</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Profesional.NombreUsuario" />
+            <div class="form-group">
+                <label asp-for="Profesional.Password" class="control-label"></label>
+                <input asp-for="Profesional.Password" class="form-control" />
+                <span asp-validation-for="Profesional.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Profesional.EstaHabilitado" /> @Html.DisplayNameFor(model => model.Profesional.EstaHabilitado)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Profesional.EsAdministrador" /> @Html.DisplayNameFor(model => model.Profesional.EsAdministrador)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Profesional.Nombre" class="control-label"></label>
+                <input asp-for="Profesional.Nombre" class="form-control" />
+                <span asp-validation-for="Profesional.Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Profesional.Apellido" class="control-label"></label>
+                <input asp-for="Profesional.Apellido" class="form-control" />
+                <span asp-validation-for="Profesional.Apellido" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Profesional.Matricula" class="control-label"></label>
+                <input asp-for="Profesional.Matricula" class="form-control" />
+                <span asp-validation-for="Profesional.Matricula" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Profesional.Telefono" class="control-label"></label>
+                <input asp-for="Profesional.Telefono" class="form-control" />
+                <span asp-validation-for="Profesional.Telefono" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

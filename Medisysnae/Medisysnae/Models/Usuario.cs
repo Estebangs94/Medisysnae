@@ -14,6 +14,7 @@ namespace Medisysnae.Models
         [Display(Name ="Nombre de usuario")]
         public string NombreUsuario { get; set; }
 
+        [MinLength(8,ErrorMessage ="La contrasena tiene que ser al menos 8 caracteres")]
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]

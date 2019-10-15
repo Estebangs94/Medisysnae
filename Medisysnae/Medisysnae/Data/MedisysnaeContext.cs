@@ -14,6 +14,9 @@ namespace Medisysnae.Data
         {
         }
 
-        public DbSet<Medisysnae.Models.Usuario> Usuario { get; set; }
+        public DbSet<Medisysnae.Models.Profesional> Profesional { get; set; }
+        public DbSet<Medisysnae.Models.Paciente> Paciente { get; set; }
+        public DbSet<Medisysnae.Models.Atencion> Atencion { get; set; }
+        public DbSet<Medisysnae.Models.Turno> Turno { get; set; }
     }
 }
