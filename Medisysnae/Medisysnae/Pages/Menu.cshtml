@@ -1,0 +1,111 @@
+﻿@page
+@model MenuModel
+
+@{
+    ViewData["Title"] = "Home";
+}
+<head>
+</head>
+<h3>Bienvenido a Medisysnae</h3>
+
+
+
+
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-phone">
+        <div class="demo-card-square mdl-card mdl-shadow--2dp">
+            <div class="mdl-card__title mdl-card--expand" id="atenciones">
+                <h2 class="mdl-card__title-text homeLabel">Atenciones</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Registrar y ver sus atenciones.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored" asp-page="/Atenciones">
+                    Ir a mis atenciones
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-phone">
+        <div class="demo-card-square mdl-card mdl-shadow--2dp">
+            <div class="mdl-card__title mdl-card--expand" id="turnos">
+                <h2 class="mdl-card__title-text homeLabel">Turnos</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Registrar y ver sus turnos.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored" asp-page="/Turnos">
+                    Ir a mis turnos
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-phone">
+        <div class="demo-card-square mdl-card mdl-shadow--2dp">
+            <div class="mdl-card__title mdl-card--expand" id="pacientes">
+                <h2 class="mdl-card__title-text homeLabel">Pacientes</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Registrar y ver sus pacientes.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored" asp-page="/Pacientes">
+                    Ir a mis pacientes
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-phone">
+        <div class="demo-card-square mdl-card mdl-shadow--2dp">
+            <div class="mdl-card__title mdl-card--expand" id="reportes">
+                <h2 class="mdl-card__title-text homeLabel">Reportes</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Ver informacion resumida.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored" asp-page="/Reportes">
+                    Ir a reportes
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-phone">
+        <div class="demo-card-square mdl-card mdl-shadow--2dp">
+            <div class="mdl-card__title mdl-card--expand" id="perfil">
+                <h2 class="mdl-card__title-text homeLabel">Perfil</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Ver y configurar su perfil.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored" asp-page="/Perfil">
+                    Ir a mi perfil
+                </a>
+            </div>
+        </div>
+    </div>
+    @{if (Model.UsuarioActual.EsAdministrador) { 
+        <div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-phone">
+            <div class="demo-card-square mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title mdl-card--expand" id="usuarios">
+                    <h2 class="mdl-card__title-text homeLabel">Usuarios</h2>
+                </div>
+                <div class="mdl-card__supporting-text">
+                    Ver y configurar usuarios.
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                    <a asp-page="/Profesionales/Index" class="mdl-button mdl-button--colored">
+                        Ir a Usuarios
+                    </a>
+                </div>
+            </div>
+        </div>
+            ;
+        }
+    }
+</div>

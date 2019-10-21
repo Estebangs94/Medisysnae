@@ -16,7 +16,6 @@ namespace Medisysnae.Models
 
         [Required(ErrorMessage = "El campo contraseña es obligatorio")]
         [DataType(DataType.Password)]
-        [Display(Name = "Contraseña")]
         [MinLength(8, ErrorMessage ="La contraseña debe ser de al menos 8 caracteres")]
         public string Password { get; set; }
 
@@ -32,5 +31,27 @@ namespace Medisysnae.Models
 
         public IList<Especialidad> Especialidades { get; set; }
 
+        [Display(Name ="Rol")]
+        public string Rol { get
+            {
+                if (EsAdministrador == true)
+                {
+                    return "Administrador";
+                }
+                else return "Profesional";
+            }
+        }
+        [Display(Name = "Habilitado")]
+        public string Habilitado
+        {
+            get
+            {
+                if (EstaHabilitado == true)
+                {
+                    return "Si";
+                }
+                else return "No";
+            }
+        }
     }
 }

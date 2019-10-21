@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Medisysnae.Data;
+using Microsoft.AspNetCore.Session;
 
 
 namespace Medisysnae
@@ -34,9 +35,18 @@ namespace Medisysnae
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddDistributedMemoryCache();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(1000000);
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
 
             services.AddDbContext<MedisysnaeContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("MedisysnaeContext")));
@@ -59,7 +69,8 @@ namespace Medisysnae
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseSession();
+           // app.UseHttpContextItemsMiddleware(); Segun MSDN la falta de esta linea puede dar errores, tener en cuenta
             app.UseMvc();
         }
     }

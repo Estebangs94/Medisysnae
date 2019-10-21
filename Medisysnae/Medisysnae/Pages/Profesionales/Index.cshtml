@@ -1,72 +1,105 @@
 ﻿@page
 @model Medisysnae.Pages.Profesionales.IndexModel
+@using Microsoft.AspNetCore.Http;
 
 @{
     ViewData["Title"] = "Index";
 }
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="~/css/tablacrud.css" />
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
 
-<h1>Index</h1>
+<body>
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h2><b>Gestión de Usuarios</b></h2>
+                    </div>
+                    <div class="col-sm-7">
+                        <a asp-page="./Create" class="btn btn-primary"><i class="material-icons">&#xE147;</i> <span>Agregar nuevo usuario</span></a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Profesional[0].NombreUsuario)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Profesional[0].Rol)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Profesional[0].Habilitado)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Profesional[0].Nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Profesional[0].Apellido)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Profesional[0].Matricula)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Profesional[0].Telefono)
+                        </th>
+                        <th>
+                            Acción
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Profesional)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NombreUsuario)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Rol)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Habilitado)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Apellido)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Matricula)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Telefono)
+                            </td>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Profesional[0].Password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Profesional[0].EstaHabilitado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Profesional[0].EsAdministrador)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Profesional[0].Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Profesional[0].Apellido)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Profesional[0].Matricula)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Profesional[0].Telefono)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Profesional) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EstaHabilitado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EsAdministrador)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Apellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Matricula)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telefono)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.NombreUsuario">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.NombreUsuario">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.NombreUsuario">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                            @{ if (Model.UsuarioActual.EsAdministrador)
+                                {
+                                    <td>
+                                        <a asp-page="./Details" asp-route-id="@item.NombreUsuario" class="settings" title="Detalle" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                                        <a asp-page="./Delete" asp-route-id="@item.NombreUsuario" class="delete" title="Borrar" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+                                    </td>
+                                    ;
+                                }
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+</body>

@@ -4,32 +4,31 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Medisysnae.Data;
-using Medisysnae.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Medisysnae.Models;
 
-namespace Medisysnae.Pages.Profesionales
+namespace Medisysnae.Pages
 {
-    public class IndexModel : PageModel
+    public class MenuModel : PageModel
     {
         private readonly Medisysnae.Data.MedisysnaeContext _context;
-
-        public IndexModel(Medisysnae.Data.MedisysnaeContext context)
-        {
-            _context = context;
-        }
-
-        public IList<Profesional> Profesional { get;set; }
-        public Profesional UsuarioActual { get; set; }
+        public Profesional UsuarioActual;
 
         public async Task OnGetAsync()
         {
-            //Con esto siempre recuperamos el UsuarioActual en cualquier pagina...
+            //Configurar recuperacion de usuario para mostrar Datos Login
+
             string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
             UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
 
-            Profesional = await _context.Profesional.ToListAsync();
+
         }
+
+        public MenuModel(Medisysnae.Data.MedisysnaeContext context)
+        {
+            _context = context;
+        }
+        
     }
 }

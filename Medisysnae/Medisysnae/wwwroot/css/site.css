@@ -43,14 +43,66 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+
 }
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  line-height: 60px; /* Vertically center the text there */
+
+
+
+.card-icon {
+    color: #777;
+    font-size: 40px;
+    padding: 24px;
+    -webkit-border-radius: 1100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    vertical-align: middle;
+    width: 60px;
+    height: 60px;
+    -moz-transition: .5s;
+    -webkit-transition: .5s;
+    -o-transition: .5s;
+    transition: .5s;
 }
+
+.icon-wrapper {
+    display: table-cell;
+}
+
+.demo-card-square.mdl-card {
+    width: 350px;
+    height: 350px;
+}
+
+.demo-card-square > .mdl-card__title {
+    color: #fff;
+}
+
+.homeLabel {
+    background-color: rgba(0,0,0,0.3);
+    padding: 4px;
+}
+
+#pacientes {
+    background: url('/images/pacientes.jpg') bottom right 15% no-repeat #555;
+}
+
+#turnos {
+    background: url('/images/turnos.jpg') bottom left 15% no-repeat #555;
+}
+#reportes {
+    background: url('/images/reportes.jpg') bottom left 15% no-repeat #555;
+}
+#perfil {
+    background: url('/images/perfil.jpg') bottom right 15% no-repeat #555;
+}
+
+.branchInfo {
+    padding-top: 30px;
+}
+
+#atenciones {
+    background: url('/images/atenciones.jpg') bottom right 15% no-repeat #555;
+}
+
+

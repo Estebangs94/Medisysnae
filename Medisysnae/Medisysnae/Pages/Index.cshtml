@@ -3,6 +3,9 @@
 @{
     ViewData["Title"] = "Home page";
 }
+@{
+    Layout = null;
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -62,10 +65,8 @@
                     </div>
                     @if (TempData["ErrorLogin"] != null)
                     {
-                     <label class="text-danger" style="text-align:left;" asp-for="ErrorUsuario">Usuario o contraseña incorrectos</label>
+                        <label class="text-danger" style="text-align:left;">@Model.TempData["ErrorLogin"]</label>
                     }
-                    
-
                     <div class="text-center p-t-45 p-b-4">
                         <span class="txt1">
                             Olvido su

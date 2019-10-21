@@ -60,9 +60,33 @@ p {
 	margin: 0px;
 }
 
-ul, li {
-	margin: 0px;
-	list-style-type: none;
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #4272d7;
+    color: #fff;
+}
+
+li {
+    float: left;
+}
+
+    li a {
+        display: block;
+        color: #fff;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+        li a:hover:not(.active) {
+            background-color: #111;
+        }
+
+.active {
+    background-color: #4CAF50;
 }
 
 

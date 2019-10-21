@@ -8,7 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Medisysnae.Data;
 using Medisysnae.Models;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
+//Es el login de la aplicacion..
 
 namespace Medisysnae.Pages
 {
@@ -23,15 +25,11 @@ namespace Medisysnae.Pages
 
         public IActionResult OnGet()
         {
-            
+            HttpContext.Session.Clear();
             return Page();
         }
 
-        [BindProperty(SupportsGet = true)]
-        public string ErrorUsuario
-        {
-            get; set;
-        }
+
             [BindProperty]
         public Profesional Profesional { get; set; }
 
@@ -45,18 +43,23 @@ namespace Medisysnae.Pages
 
             if (prof == null)
             {
-                TempData["ErrorLogin"] = true;
+                TempData["ErrorLogin"] = "Usuario o contraseña incorrectos";
                 return Page();
             }
             else if (Profesional.Password != prof.Password)
             {
-                TempData["ErrorLogin"] = true;
+                TempData["ErrorLogin"] = "Usuario o contraseña incorrectos";
+                return Page();
+            }
+            else if (prof.EstaHabilitado == false)
+            {
+                TempData["ErrorLogin"] = "El usuario esta inhabilitado";
                 return Page();
             }
 
-            Profesional = prof;
+            HttpContext.Session.SetString("NombreUsuarioActual", prof.NombreUsuario);
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Menu");
         }
     }
 }
