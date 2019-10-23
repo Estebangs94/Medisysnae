@@ -5,9 +5,9 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Editar</h1>
 
-<h4>Profesional</h4>
+<h4>Usuario</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -21,12 +21,12 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Profesional.EstaHabilitado" /> @Html.DisplayNameFor(model => model.Profesional.EstaHabilitado)
+                    <input class="form-check-input" asp-for="Profesional.EstaHabilitado" />a  @Html.DisplayNameFor(model => model.Profesional.EstaHabilitado)
                 </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Profesional.EsAdministrador" /> @Html.DisplayNameFor(model => model.Profesional.EsAdministrador)
+                    <input class="form-check-input" asp-for="Profesional.EsAdministrador" />a  @Html.DisplayNameFor(model => model.Profesional.EsAdministrador)
                 </label>
             </div>
             <div class="form-group">
@@ -50,14 +50,14 @@
                 <span asp-validation-for="Profesional.Telefono" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Guardar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Index">Volver a la lista</a>
 </div>
 
 @section Scripts {

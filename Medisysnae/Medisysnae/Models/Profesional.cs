@@ -19,12 +19,14 @@ namespace Medisysnae.Models
         [MinLength(8, ErrorMessage ="La contraseña debe ser de al menos 8 caracteres")]
         public string Password { get; set; }
 
+        [Display(Name ="Habilitado")]
         public bool EstaHabilitado { get; set; }
+        [Display(Name ="Administrador")]
         public bool EsAdministrador { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo nombre es obligatorio")]
         public string Nombre { get; set; }
-        [Required]
+        [Required(ErrorMessage = "El campo apellido es obligatorio")]
         public string Apellido { get; set; }
         public string Matricula { get; set; }
         public int Telefono { get; set; }

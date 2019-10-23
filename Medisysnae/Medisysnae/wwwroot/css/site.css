@@ -43,6 +43,13 @@ html {
 
 body {
   /* Margin bottom by footer height */
+  font-family:sans-serif;
+  font-size: 15px;
+}
+
+.fuentes {
+    font-family: sans-serif;
+    font-size: 16px;
 
 }
 
