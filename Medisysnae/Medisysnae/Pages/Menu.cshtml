@@ -11,101 +11,174 @@
 
 
 
-<div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-phone">
-        <div class="demo-card-square mdl-card mdl-shadow--2dp">
-            <div class="mdl-card__title mdl-card--expand" id="atenciones">
-                <h2 class="mdl-card__title-text homeLabel">Atenciones</h2>
-            </div>
-            <div class="mdl-card__supporting-text">
-                Registrar y ver sus atenciones.
-            </div>
-            <div class="mdl-card__actions mdl-card--border">
-                <a class="mdl-button mdl-button--colored" asp-page="/Atenciones">
-                    Ir a mis atenciones
-                </a>
-            </div>
-        </div>
-    </div>
 
-    <div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-phone">
-        <div class="demo-card-square mdl-card mdl-shadow--2dp">
-            <div class="mdl-card__title mdl-card--expand" id="turnos">
-                <h2 class="mdl-card__title-text homeLabel">Turnos</h2>
-            </div>
-            <div class="mdl-card__supporting-text">
-                Registrar y ver sus turnos.
-            </div>
-            <div class="mdl-card__actions mdl-card--border">
-                <a class="mdl-button mdl-button--colored" asp-page="/Turnos">
-                    Ir a mis turnos
-                </a>
-            </div>
-        </div>
-    </div>
+<!-- Card deck -->
+<div class="card-deck">
 
-    <div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-phone">
-        <div class="demo-card-square mdl-card mdl-shadow--2dp">
-            <div class="mdl-card__title mdl-card--expand" id="pacientes">
-                <h2 class="mdl-card__title-text homeLabel">Pacientes</h2>
-            </div>
-            <div class="mdl-card__supporting-text">
-                Registrar y ver sus pacientes.
-            </div>
-            <div class="mdl-card__actions mdl-card--border">
-                <a class="mdl-button mdl-button--colored" asp-page="/Pacientes">
-                    Ir a mis pacientes
-                </a>
-            </div>
+    <!-- Card -->
+    <div class="card mb-4">
+
+        <!--Card image-->
+        <div class="view overlay">
+            <img class="card-img-top" src="~/images/atenciones.jpg" alt="Card image cap">
+            <a href="#!">
+                <div class="mask rgba-white-slight"></div>
+            </a>
         </div>
+
+        <!--Card content-->
+        <div class="card-body">
+
+            <!--Title-->
+            <h4 class="card-title">Atenciones</h4>
+            <!--Text-->
+            <p class="card-text">Registrar y ver atenciones de sus pacientes con sus evoluciones</p>
+            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+            <a asp-page="/Profesionales/Index" style="color:white;" class="btn btn-primary" >Ir a mis atenciones</a>
+
+
+        </div>
+
     </div>
-    <div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-phone">
-        <div class="demo-card-square mdl-card mdl-shadow--2dp">
-            <div class="mdl-card__title mdl-card--expand" id="reportes">
-                <h2 class="mdl-card__title-text homeLabel">Reportes</h2>
-            </div>
-            <div class="mdl-card__supporting-text">
-                Ver informacion resumida.
-            </div>
-            <div class="mdl-card__actions mdl-card--border">
-                <a class="mdl-button mdl-button--colored" asp-page="/Reportes">
-                    Ir a reportes
-                </a>
-            </div>
+    <!-- Card -->
+
+
+    <!-- Card -->
+    <div class="card mb-4">
+
+        <!--Card image-->
+        <div class="view overlay">
+            <img class="card-img-top" src="~/images/turnos.jpg" alt="Card image cap">
+            <a href="#!">
+                <div class="mask rgba-white-slight"></div>
+            </a>
         </div>
-    </div>
-    <div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-phone">
-        <div class="demo-card-square mdl-card mdl-shadow--2dp">
-            <div class="mdl-card__title mdl-card--expand" id="perfil">
-                <h2 class="mdl-card__title-text homeLabel">Perfil</h2>
-            </div>
-            <div class="mdl-card__supporting-text">
-                Ver y configurar su perfil.
-            </div>
-            <div class="mdl-card__actions mdl-card--border">
-                <a class="mdl-button mdl-button--colored" asp-page="/Perfil">
-                    Ir a mi perfil
-                </a>
-            </div>
-        </div>
-    </div>
-    @{if (Model.UsuarioActual.EsAdministrador) { 
-        <div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-phone">
-            <div class="demo-card-square mdl-card mdl-shadow--2dp">
-                <div class="mdl-card__title mdl-card--expand" id="usuarios">
-                    <h2 class="mdl-card__title-text homeLabel">Usuarios</h2>
-                </div>
-                <div class="mdl-card__supporting-text">
-                    Ver y configurar usuarios.
-                </div>
-                <div class="mdl-card__actions mdl-card--border">
-                    <a asp-page="/Profesionales/Index" class="mdl-button mdl-button--colored">
-                        Ir a Usuarios
-                    </a>
-                </div>
-            </div>
-        </div>
-            ;
-        }
-    }
+
+        <!--Card content-->
+        <div class="card-body">
+
+            <!--Title-->
+            <h4 class="card-title">Turnos</h4>
+            <!--Text-->
+            <p class="card-text">Gestionar sus horarios de atención. Ver sus turnos</p>
+            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+            <a asp-page="/Profesionales/Index" style="color:white;" class="btn btn-primary">Ir a mis turnos</a>
+
 </div>
+
+    </div>
+    <!-- Card -->
+
+
+    <!-- Card -->
+    <div class="card mb-4">
+
+        <!--Card image-->
+        <div class="view overlay">
+            <img class="card-img-top" src="~/images/pacientes.jpg" alt="Card image cap">
+            <a href="#!">
+                <div class="mask rgba-white-slight"></div>
+            </a>
+        </div>
+
+        <!--Card content-->
+        <div class="card-body">
+
+            <!--Title-->
+            <h4 class="card-title">Pacientes</h4>
+            <!--Text-->
+            <p class="card-text">Administrar datos personales de sus pacientes. Configurar alertas para los mismos</p>
+            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+            <button type="button" class="btn btn-primary">Ir a mis pacientes</button>
+
+        </div>
+
+    </div>
+    <!-- Card -->
+
+</div>
+<!-- Card deck -->
+
+
+<!-- Card deck -->
+<div class="card-deck">
+
+
+    <!-- Card -->
+    <div class="card mb-4">
+
+        <!--Card image-->
+        <div class="view overlay">
+            <img class="card-img-top" src="~/images/reportes.jpg" alt="Card image cap">
+            <a href="#!">
+                <div class="mask rgba-white-slight"></div>
+            </a>
+        </div>
+
+        <!--Card content-->
+        <div class="card-body">
+
+            <!--Title-->
+            <h4 class="card-title">Reportes</h4>
+            <!--Text-->
+            <p class="card-text">Ver reportes de sus pacientes, ausentismo, turnos en el mes.</p>
+            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+            <button type="button" class="btn btn-primary">Ir a mis reportes</button>
+
+        </div>
+
+    </div>
+    <!-- Card -->
+    <!-- Card -->
+    <div class="card mb-4">
+
+        <!--Card image-->
+        <div class="view overlay">
+            <img class="card-img-top" src="~/images/perfil.jpg" alt="Card image cap">
+            <a href="#!">
+                <div class="mask rgba-white-slight"></div>
+            </a>
+        </div>
+
+        <!--Card content-->
+        <div class="card-body">
+
+            <!--Title-->
+            <h4 class="card-title">Perfil</h4>
+            <!--Text-->
+            <p class="card-text">Administrar su perfil. Datos personales y especialidad.</p>
+            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+            <button type="button" class="btn btn-primary">Ir a mi perfil</button>
+
+        </div>
+
+    </div>
+    <!-- Card -->
+    <!-- Card con style="visibility:hidden" podemos ocultar una card-->
+    <div class="card mb-4">
+
+        <!--Card image-->
+        <div class="view overlay">
+            <img class="card-img-top" src="~/images/usuarios.png" alt="Card image cap">
+            <a href="#!">
+                <div class="mask rgba-white-slight"></div>
+            </a>
+        </div>
+
+        <!--Card content-->
+        <div class="card-body">
+
+            <!--Title-->
+            <h4 class="card-title">Usuarios</h4>
+            <!--Text-->
+            <p class="card-text">Administirar usuarios. Dar de alta o baja a profesionales y administradores</p>
+            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+            <a asp-page="/Profesionales/Index" style="color:white;" class="btn btn-primary">Ir a usuarios</a>
+
+        </div>
+
+    </div>
+    <!-- Card -->
+
+</div>
+<!-- Card deck -->
