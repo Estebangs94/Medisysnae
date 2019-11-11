@@ -18,5 +18,8 @@ namespace Medisysnae.Data
         public DbSet<Medisysnae.Models.Paciente> Paciente { get; set; }
         public DbSet<Medisysnae.Models.Atencion> Atencion { get; set; }
         public DbSet<Medisysnae.Models.Turno> Turno { get; set; }
+        public DbSet<Medisysnae.Models.Obrasocial> Obrasocial { get; set; }
+        public DbSet<Medisysnae.Models.Antecedente> Antecedente { get; set; }
+        public DbSet<Medisysnae.Models.Antecedentespaciente> AntecedentePaciente { get; set; }
     }
 }

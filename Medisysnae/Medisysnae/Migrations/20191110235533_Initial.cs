@@ -4,10 +4,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Medisysnae.Migrations
 {
-    public partial class Entidades2 : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Antecedente",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Descripcion = table.Column<string>(nullable: true),
+                    EstaActivo = table.Column<bool>(nullable: false),
+                    EsListaOpciones = table.Column<bool>(nullable: false),
+                    Orden = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Antecedente", x => x.ID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Obrasocial",
                 columns: table => new
@@ -22,6 +38,44 @@ namespace Medisysnae.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Profesional",
+                columns: table => new
+                {
+                    NombreUsuario = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false),
+                    EstaHabilitado = table.Column<bool>(nullable: false),
+                    EsAdministrador = table.Column<bool>(nullable: false),
+                    Nombre = table.Column<string>(nullable: false),
+                    Apellido = table.Column<string>(nullable: false),
+                    Matricula = table.Column<string>(nullable: true),
+                    Telefono = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Profesional", x => x.NombreUsuario);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Especialidad",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(nullable: false),
+                    ProfesionalNombreUsuario = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Especialidad", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Especialidad_Profesional_ProfesionalNombreUsuario",
+                        column: x => x.ProfesionalNombreUsuario,
+                        principalTable: "Profesional",
+                        principalColumn: "NombreUsuario",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Paciente",
                 columns: table => new
                 {
@@ -31,7 +85,7 @@ namespace Medisysnae.Migrations
                     Nombre = table.Column<string>(nullable: true),
                     Apellido = table.Column<string>(nullable: true),
                     Dni = table.Column<int>(nullable: false),
-                    ObraSocialID = table.Column<int>(nullable: true),
+                    Obrasocial_ID = table.Column<int>(nullable: false),
                     Domicilio = table.Column<string>(nullable: true),
                     Telefono = table.Column<int>(nullable: false),
                     NroAfiliado = table.Column<string>(nullable: true),
@@ -49,9 +103,65 @@ namespace Medisysnae.Migrations
                         principalColumn: "NombreUsuario",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Paciente_Obrasocial_ObraSocialID",
-                        column: x => x.ObraSocialID,
+                        name: "FK_Paciente_Obrasocial_Obrasocial_ID",
+                        column: x => x.Obrasocial_ID,
                         principalTable: "Obrasocial",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tratamiento",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(nullable: false),
+                    Descripcion = table.Column<string>(nullable: true),
+                    CodigoNM = table.Column<int>(nullable: true),
+                    EspecialidadID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tratamiento", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Tratamiento_Especialidad_EspecialidadID",
+                        column: x => x.EspecialidadID,
+                        principalTable: "Especialidad",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AntecedentePaciente",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AntecedenteID = table.Column<int>(nullable: true),
+                    PacienteID = table.Column<int>(nullable: true),
+                    MedicoNombreUsuario = table.Column<string>(nullable: true),
+                    Valor = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AntecedentePaciente", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_AntecedentePaciente_Antecedente_AntecedenteID",
+                        column: x => x.AntecedenteID,
+                        principalTable: "Antecedente",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AntecedentePaciente_Profesional_MedicoNombreUsuario",
+                        column: x => x.MedicoNombreUsuario,
+                        principalTable: "Profesional",
+                        principalColumn: "NombreUsuario",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AntecedentePaciente_Paciente_PacienteID",
+                        column: x => x.PacienteID,
+                        principalTable: "Paciente",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -128,6 +238,21 @@ namespace Medisysnae.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AntecedentePaciente_AntecedenteID",
+                table: "AntecedentePaciente",
+                column: "AntecedenteID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AntecedentePaciente_MedicoNombreUsuario",
+                table: "AntecedentePaciente",
+                column: "MedicoNombreUsuario");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AntecedentePaciente_PacienteID",
+                table: "AntecedentePaciente",
+                column: "PacienteID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Atencion_MedicoNombreUsuario",
                 table: "Atencion",
                 column: "MedicoNombreUsuario");
@@ -143,14 +268,24 @@ namespace Medisysnae.Migrations
                 column: "TratamientoID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Especialidad_ProfesionalNombreUsuario",
+                table: "Especialidad",
+                column: "ProfesionalNombreUsuario");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Paciente_MedicoNombreUsuario",
                 table: "Paciente",
                 column: "MedicoNombreUsuario");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Paciente_ObraSocialID",
+                name: "IX_Paciente_Obrasocial_ID",
                 table: "Paciente",
-                column: "ObraSocialID");
+                column: "Obrasocial_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tratamiento_EspecialidadID",
+                table: "Tratamiento",
+                column: "EspecialidadID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Turno_MedicoNombreUsuario",
@@ -171,16 +306,31 @@ namespace Medisysnae.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AntecedentePaciente");
+
+            migrationBuilder.DropTable(
                 name: "Atencion");
 
             migrationBuilder.DropTable(
                 name: "Turno");
 
             migrationBuilder.DropTable(
+                name: "Antecedente");
+
+            migrationBuilder.DropTable(
                 name: "Paciente");
 
             migrationBuilder.DropTable(
+                name: "Tratamiento");
+
+            migrationBuilder.DropTable(
                 name: "Obrasocial");
+
+            migrationBuilder.DropTable(
+                name: "Especialidad");
+
+            migrationBuilder.DropTable(
+                name: "Profesional");
         }
     }
 }

@@ -1,0 +1,138 @@
+﻿@page
+@model Medisysnae.Pages.Pacientes.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+<link rel="stylesheet" href="~/css/tablacrud.css" />
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+
+<body>
+
+
+
+
+
+    <div class="container">
+        <form asp-page="./Index" method="get">
+            <div class="form-actions no-color">
+                <p>
+                    Buscar por nombre o apellido:
+                    <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+                    <input type="submit" value="Buscar" class="btn btn-outline-secondary" /> |
+                    <a asp-page="./Index">Volver a la lista completa</a>
+                </p>
+            </div>
+        </form>
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h2><b>Pacientes</b></h2>
+                    </div>
+                    <div class="col-sm-7">
+                        <a asp-page="./Create" class="btn btn-primary"><i class="material-icons">&#xE147;</i> <span>Agregar paciente</span></a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover table-responsive-sm table-responsive-md table-responsive-lg">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Paciente[0].Nombre)
+                        </th>
+                        <th>
+                            <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort" asp-route-currentFilter="@Model.CurrentFilter">
+                                @Html.DisplayNameFor(model => model.Paciente[0].Apellido)
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-page="./Index" asp-route-sortOrder="@Model.DateSort" asp-route-currentFilter="Model.CurrentFilter">
+                                @Html.DisplayNameFor(model => model.Paciente[0].Dni)
+                            </a>
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Paciente[0].Obrasocial)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Paciente[0].Telefono)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Paciente[0].NroAfiliado)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Paciente[0].Comentario)
+                        </th>
+                        <th>
+                            Acción
+                        </th>
+                        <th>
+                            Antecedentes
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Paciente)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Apellido)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Dni)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Obrasocial.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Telefono)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NroAfiliado)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Comentario)
+                            </td>
+                            <td>
+                                <a asp-page="./Details" asp-route-id="@item.ID" class="settings" title="Detalle" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                                <a asp-page="./Delete" asp-route-id="@item.ID" class="delete" title="Borrar" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+                            </td>
+                            <td></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @{
+    var prevDisabled = !Model.Paciente.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Paciente.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.Paciente.PageIndex - 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-outline-secondary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.Paciente.PageIndex + 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-outline-secondary @nextDisabled">
+    Next
+</a>
+    </div>
+</body>
+

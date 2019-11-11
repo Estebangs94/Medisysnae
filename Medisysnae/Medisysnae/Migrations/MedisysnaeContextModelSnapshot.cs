@@ -19,6 +19,50 @@ namespace Medisysnae.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Medisysnae.Models.Antecedente", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Descripcion");
+
+                    b.Property<bool>("EsListaOpciones");
+
+                    b.Property<bool>("EstaActivo");
+
+                    b.Property<int>("Orden");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Antecedente");
+                });
+
+            modelBuilder.Entity("Medisysnae.Models.Antecedentespaciente", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AntecedenteID");
+
+                    b.Property<string>("MedicoNombreUsuario");
+
+                    b.Property<int?>("PacienteID");
+
+                    b.Property<string>("Valor");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AntecedenteID");
+
+                    b.HasIndex("MedicoNombreUsuario");
+
+                    b.HasIndex("PacienteID");
+
+                    b.ToTable("AntecedentePaciente");
+                });
+
             modelBuilder.Entity("Medisysnae.Models.Atencion", b =>
                 {
                     b.Property<int>("ID")
@@ -103,7 +147,7 @@ namespace Medisysnae.Migrations
 
                     b.Property<string>("NroAfiliado");
 
-                    b.Property<int?>("ObraSocialID");
+                    b.Property<int>("Obrasocial_ID");
 
                     b.Property<int>("Telefono");
 
@@ -111,7 +155,7 @@ namespace Medisysnae.Migrations
 
                     b.HasIndex("MedicoNombreUsuario");
 
-                    b.HasIndex("ObraSocialID");
+                    b.HasIndex("Obrasocial_ID");
 
                     b.ToTable("Paciente");
                 });
@@ -192,6 +236,21 @@ namespace Medisysnae.Migrations
                     b.ToTable("Turno");
                 });
 
+            modelBuilder.Entity("Medisysnae.Models.Antecedentespaciente", b =>
+                {
+                    b.HasOne("Medisysnae.Models.Antecedente", "Antecedente")
+                        .WithMany()
+                        .HasForeignKey("AntecedenteID");
+
+                    b.HasOne("Medisysnae.Models.Profesional", "Medico")
+                        .WithMany()
+                        .HasForeignKey("MedicoNombreUsuario");
+
+                    b.HasOne("Medisysnae.Models.Paciente", "Paciente")
+                        .WithMany()
+                        .HasForeignKey("PacienteID");
+                });
+
             modelBuilder.Entity("Medisysnae.Models.Atencion", b =>
                 {
                     b.HasOne("Medisysnae.Models.Profesional", "Medico")
@@ -220,9 +279,10 @@ namespace Medisysnae.Migrations
                         .WithMany()
                         .HasForeignKey("MedicoNombreUsuario");
 
-                    b.HasOne("Medisysnae.Models.Obrasocial", "ObraSocial")
+                    b.HasOne("Medisysnae.Models.Obrasocial", "Obrasocial")
                         .WithMany()
-                        .HasForeignKey("ObraSocialID");
+                        .HasForeignKey("Obrasocial_ID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Medisysnae.Models.Tratamiento", b =>
