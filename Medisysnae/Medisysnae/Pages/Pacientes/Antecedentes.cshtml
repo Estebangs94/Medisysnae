@@ -5,4 +5,43 @@
 }
 
 <h1>Antecedentes</h1>
+<table style="width:50%">
+    <tbody>
+        @foreach (var item in Model.Antecedentes)
+        {
+            <tr>
+                <td>
+                    @if (item.EsListaOpciones)
+                    {
+                        <input type="checkbox"/>@item.Descripcion
+                    }
+                    else if (item.EsTitulo)
+                    {
+                        <p></p>
+                        <h3>@Html.DisplayFor(modelItem => item.Descripcion)</h3>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    }
+                </td>
+                @if (!item.EsListaOpciones && !item.EsTitulo)
+                {
+                    if (item.EsTextArea)
+                    {
+                        <td>
+                            <textarea style="width:100%"></textarea>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <input type="text" />
+                        </td>
+                    }
+                }
+            </tr>
+        }
 
+    </tbody>
+</table>

@@ -12,5 +12,7 @@ namespace Medisysnae.Models
         public bool EstaActivo { get; set; }
         public bool EsListaOpciones { get; set; }
         public int Orden { get; set; }
+        public bool EsTextArea { get; set; }
+        public bool EsTitulo { get; set; }
     }
 }

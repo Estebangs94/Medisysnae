@@ -108,7 +108,9 @@
                                 <a asp-page="./Details" asp-route-id="@item.ID" class="settings" title="Detalle" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
                                 <a asp-page="./Delete" asp-route-id="@item.ID" class="delete" title="Borrar" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
                             </td>
-                            <td></td>
+                            <td>
+                                <a asp-page="./Antecedentes" asp-route-id="@item.ID">Ir a antecedentes</a>
+                            </td>
                         </tr>
                     }
                 </tbody>
