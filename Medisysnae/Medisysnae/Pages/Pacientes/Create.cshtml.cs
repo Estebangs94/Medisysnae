@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Medisysnae.Data;
 using Medisysnae.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace Medisysnae.Pages.Pacientes
 {
@@ -14,6 +16,9 @@ namespace Medisysnae.Pages.Pacientes
     {
         public SelectList ObraSocialList { get; set; }
         public IList<Obrasocial> ObrasSociales { get; set; }
+        [BindProperty]
+        public IList<Antecedente> Antecedentes { get; set; }
+        public Profesional UsuarioActual { get; set; }
 
         private readonly Medisysnae.Data.MedisysnaeContext _context;
 
@@ -46,7 +51,26 @@ namespace Medisysnae.Pages.Pacientes
             Paciente.Obrasocial_ID = Paciente.Obrasocial.ID;
             Paciente.Obrasocial = null;
 
-                _context.Paciente.Add(Paciente);
+            Antecedentes = await _context.Antecedente
+                .Where(a => a.EstaActivo == true)
+                .ToListAsync();
+
+            _context.Paciente.Add(Paciente);
+
+            string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
+            UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
+
+            foreach (Antecedente a in Antecedentes)
+            {
+                Antecedentespaciente ap = new Antecedentespaciente();
+                ap.Antecedente = a;
+                ap.Paciente = Paciente;
+                ap.Medico = UsuarioActual;
+                ap.Valor = "";
+
+                _context.AntecedentePaciente.Add(ap);
+            }
+
                 await _context.SaveChangesAsync();
 
                 return RedirectToPage("./Index");

@@ -57,7 +57,7 @@ namespace Medisysnae.Pages
                 return Page();
             }
 
-            HttpContext.Session.SetString("7", prof.NombreUsuario);
+            HttpContext.Session.SetString("NombreUsuarioActual", prof.NombreUsuario);
 
             return RedirectToPage("/Menu");
         }

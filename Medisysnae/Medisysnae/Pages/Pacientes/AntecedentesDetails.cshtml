@@ -1,0 +1,61 @@
+﻿@page
+@model Medisysnae.Pages.Pacientes.AntecedentesDetailsModel
+@{
+    ViewData["Title"] = "AntecedentesDetails";
+}
+
+<h1>@Model.Paciente.ApellidoNombre</h1>
+<br/>
+<div class="form-group">
+    <a asp-page="./Antecedentes" asp-route-id="@Model.Paciente.ID" style="color:white;" class="btn btn-primary">Editar</a>|
+    <a asp-page="./Index">Volver a la lista</a>
+</div>
+<br />
+
+<table style="width:50%">
+    <tbody>
+
+
+        @foreach (var item in Model.AntecedentesPaciente)
+        {
+            <tr>
+                <td>
+                    @if (item.Antecedente.EsListaOpciones)
+                    {
+                        if (item.Valor == "true")
+                        {
+                            <input type="checkbox" checked="checked" disabled="disabled" />@item.Antecedente.Descripcion
+                        }
+                        else
+                        {
+                            <input type="checkbox" disabled="disabled" />@item.Antecedente.Descripcion
+                        }
+                    }
+                    else if (item.Antecedente.EsTitulo)
+                    {
+                        <h3>@Html.DisplayFor(modelItem => item.Antecedente.Descripcion)</h3>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Antecedente.Descripcion)
+                    }
+                </td>
+                @if (!item.Antecedente.EsListaOpciones && !item.Antecedente.EsTitulo)
+                {
+                    if (item.Antecedente.EsTextArea)
+                    {
+                        <td>
+                            <textarea style="width:100%" disabled="disabled">@item.Valor</textarea>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <input type="text" value="@item.Valor" disabled="disabled" />
+                        </td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>

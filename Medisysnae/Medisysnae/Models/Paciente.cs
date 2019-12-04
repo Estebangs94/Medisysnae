@@ -38,6 +38,13 @@ namespace Medisysnae.Models
         [Display()]
         public bool EstaActivo { get; set; }
 
+        public string ApellidoNombre
+        {
+            get
+            {
+                return Apellido + ", " + Nombre;
+            }
+        }
 
     }
 }

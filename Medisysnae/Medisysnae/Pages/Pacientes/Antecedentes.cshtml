@@ -4,16 +4,23 @@
     ViewData["Title"] = "Antecedentes";
 }
 
-<h1>Antecedentes</h1>
+<h1>@Model.Paciente.ApellidoNombre</h1>
+
+<div class="form-group">
+    <input type="submit" value="Guardar" class="btn btn-primary" />|
+    <a asp-page="./Index">Cancelar</a>
+</div>
+<br />
 <table style="width:50%">
     <tbody>
+
         @foreach (var item in Model.Antecedentes)
         {
             <tr>
                 <td>
                     @if (item.EsListaOpciones)
                     {
-                        <input type="checkbox"/>@item.Descripcion
+                        <input type="checkbox" />@item.Descripcion
                     }
                     else if (item.EsTitulo)
                     {
