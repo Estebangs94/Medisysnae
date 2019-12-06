@@ -15,6 +15,7 @@ namespace Medisysnae.Models
         public Paciente Paciente { get; set; }
         public Profesional Medico { get; set; }
         public string Valor { get; set; }
+    
 
         //https://docs.microsoft.com/en-us/aspnet/core/data/ef-rp/crud?view=aspnetcore-2.1#overposting
     }

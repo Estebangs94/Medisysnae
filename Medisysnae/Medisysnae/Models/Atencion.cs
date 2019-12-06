@@ -13,7 +13,7 @@ namespace Medisysnae.Models
         public Paciente Paciente { get; set; }
         public DateTime FechaHora { get; set; }
         public Tratamiento Tratamiento { get; set; }
-
+        public string Titulo { get; set; }
         //Campo libre para el profesional
         public string Descripcion { get; set; }
 

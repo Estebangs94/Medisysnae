@@ -8,13 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using Medisysnae.Data;
 using Medisysnae.Models;
 
-namespace Medisysnae.Pages.Pacientes
+
+namespace Medisysnae.Pages.Atenciones
 {
-    public class AntecedentesDetailsModel : PageModel
+    public class ComenzarAtencionModel : PageModel
     {
         private readonly Medisysnae.Data.MedisysnaeContext _context;
 
-        public AntecedentesDetailsModel(Medisysnae.Data.MedisysnaeContext context)
+        public ComenzarAtencionModel(Medisysnae.Data.MedisysnaeContext context)
         {
             _context = context;
         }

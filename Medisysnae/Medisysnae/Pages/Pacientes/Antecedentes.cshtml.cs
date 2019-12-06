@@ -21,7 +21,9 @@ namespace Medisysnae.Pages.Pacientes
         }
 
         public Paciente Paciente { get; set; }
-        public IList<Antecedente> Antecedentes { get; set; }
+
+        [BindProperty]
+        public IList<Antecedentespaciente> AntecedentesPaciente { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -37,15 +39,29 @@ namespace Medisysnae.Pages.Pacientes
                 return NotFound();
             }
 
-            IQueryable<Antecedente> antecedentesIQ = from a in _context.Antecedente
-                                                     select a;
+            AntecedentesPaciente = await _context.AntecedentePaciente
+                .Include(i => i.Paciente)
+                .Include(i => i.Antecedente)
+                .Include(i => i.Medico)
+                .OrderBy(i => i.Antecedente.Orden)
+                .ToListAsync();
 
-            antecedentesIQ = antecedentesIQ.Where(a => a.EstaActivo == true);
-            antecedentesIQ = antecedentesIQ.OrderBy(a => a.Orden);
-
-            Antecedentes = await antecedentesIQ.AsNoTracking().ToListAsync();
-
+            AntecedentesPaciente = AntecedentesPaciente.Where(a => a.Paciente.ID == Paciente.ID)
+                                    .ToList();
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            AntecedentesPaciente = AntecedentesPaciente;
+
+
+            return RedirectToPage("./Index");
         }
     }
 }

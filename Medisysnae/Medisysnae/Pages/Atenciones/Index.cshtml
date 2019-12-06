@@ -1,6 +1,5 @@
 ﻿@page
-@model Medisysnae.Pages.Pacientes.IndexModel
-
+@model Medisysnae.Pages.Atenciones.IndexModel
 @{
     ViewData["Title"] = "Index";
 }
@@ -36,11 +35,9 @@
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-5">
-                        <h2><b>Pacientes</b></h2>
+                        <h2><b>Comenzar Atención</b></h2>
                     </div>
-                    <div class="col-sm-7">
-                        <a asp-page="./Create" class="btn btn-primary"><i class="material-icons">&#xE147;</i> <span>Agregar paciente</span></a>
-                    </div>
+                    
                 </div>
             </div>
             <table class="table table-striped table-hover table-responsive-sm table-responsive-md table-responsive-lg">
@@ -71,12 +68,6 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Paciente[0].Comentario)
                         </th>
-                        <th>
-                            Acción
-                        </th>
-                        <th>
-                            Antecedentes
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -104,12 +95,9 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Comentario)
                             </td>
+
                             <td>
-                                <a asp-page="./Details" asp-route-id="@item.ID" class="settings" title="Detalle" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                                <a asp-page="./Delete" asp-route-id="@item.ID" class="delete" title="Borrar" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                            </td>
-                            <td>
-                                <a asp-page="./AntecedentesDetails" asp-route-id="@item.ID">Ir a antecedentes</a>
+                                <a asp-page="./ComenzarAtencion" asp-route-id="@item.ID">Atender</a>
                             </td>
                         </tr>
                     }
@@ -137,4 +125,5 @@
 </a>
     </div>
 </body>
+
 

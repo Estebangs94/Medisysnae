@@ -48,6 +48,7 @@ namespace Medisysnae.Pages.Pacientes
             {
                 return Page();
             }
+
             Paciente.Obrasocial_ID = Paciente.Obrasocial.ID;
             Paciente.Obrasocial = null;
 
