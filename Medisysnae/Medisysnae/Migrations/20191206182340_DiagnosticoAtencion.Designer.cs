@@ -4,14 +4,16 @@ using Medisysnae.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Medisysnae.Migrations
 {
     [DbContext(typeof(MedisysnaeContext))]
-    partial class MedisysnaeContextModelSnapshot : ModelSnapshot
+    [Migration("20191206182340_DiagnosticoAtencion")]
+    partial class DiagnosticoAtencion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,7 +89,7 @@ namespace Medisysnae.Migrations
 
                     b.Property<string>("Titulo");
 
-                    b.Property<int>("Tratamiento_ID");
+                    b.Property<int?>("TratamientoID");
 
                     b.HasKey("ID");
 
@@ -95,7 +97,7 @@ namespace Medisysnae.Migrations
 
                     b.HasIndex("PacienteID");
 
-                    b.HasIndex("Tratamiento_ID");
+                    b.HasIndex("TratamientoID");
 
                     b.ToTable("Atencion");
                 });
@@ -271,8 +273,7 @@ namespace Medisysnae.Migrations
 
                     b.HasOne("Medisysnae.Models.Tratamiento", "Tratamiento")
                         .WithMany()
-                        .HasForeignKey("Tratamiento_ID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TratamientoID");
                 });
 
             modelBuilder.Entity("Medisysnae.Models.Especialidad", b =>

@@ -67,7 +67,8 @@ namespace Medisysnae.Pages.Pacientes
                 ap.Antecedente = a;
                 ap.Paciente = Paciente;
                 ap.Medico = UsuarioActual;
-                ap.Valor = "";
+                ap.ValorBool = false;
+                ap.ValorString = "";
 
                 _context.AntecedentePaciente.Add(ap);
             }
