@@ -4,14 +4,16 @@ using Medisysnae.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Medisysnae.Migrations
 {
     [DbContext(typeof(MedisysnaeContext))]
-    partial class MedisysnaeContextModelSnapshot : ModelSnapshot
+    [Migration("20191209165011_ValorBoolDown")]
+    partial class ValorBoolDown
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -179,10 +181,6 @@ namespace Medisysnae.Migrations
 
                     b.Property<string>("Apellido")
                         .IsRequired();
-
-                    b.Property<string>("DNI");
-
-                    b.Property<string>("Direccion");
 
                     b.Property<bool>("EsAdministrador");
 

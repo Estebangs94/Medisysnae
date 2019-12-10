@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Medisysnae.Data;
 using Medisysnae.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Medisysnae.Pages.Profesionales
 {
@@ -20,7 +21,8 @@ namespace Medisysnae.Pages.Profesionales
         }
 
         public Profesional Profesional { get; set; }
-
+        public Profesional UsuarioActual { get; set;
+        }
         public async Task<IActionResult> OnGetAsync(string id)
         {
             if (id == null)
@@ -29,6 +31,9 @@ namespace Medisysnae.Pages.Profesionales
             }
 
             Profesional = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == id);
+
+            string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
+            UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
 
             if (Profesional == null)
             {

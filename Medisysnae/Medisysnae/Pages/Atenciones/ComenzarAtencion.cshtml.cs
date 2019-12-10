@@ -27,6 +27,12 @@ namespace Medisysnae.Pages.Atenciones
         public Paciente Paciente { get; set; }
 
         [BindProperty]
+        public string MedicacionAtencion { get; set; }
+
+        [BindProperty]
+        public string ComentarioAtencion { get; set; }
+
+        [BindProperty]
         public int PacienteID { get; set; }
 
         [BindProperty]
@@ -118,7 +124,11 @@ namespace Medisysnae.Pages.Atenciones
             Atencion.Titulo = TituloAtencion;
             Atencion.FechaHora = FechaAtencion;
             Atencion.Descripcion = DescripcionAtencion;
-            Atencion.Tratamiento = tratamiento;
+            Atencion.Tratamiento_ID = tratamiento.ID;
+            Atencion.Tratamiento = null;
+            Atencion.Diagnostico = DiagnosticoAtencion;
+            Atencion.Medicacion = MedicacionAtencion;
+            Atencion.Comentario = ComentarioAtencion;
 
             _context.Atencion.Add(Atencion);
 

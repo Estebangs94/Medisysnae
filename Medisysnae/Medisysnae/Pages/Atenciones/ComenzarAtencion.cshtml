@@ -53,7 +53,7 @@
 
                         <div class="form-group">
                             <label class="control-label">Tratamiento</label>
-                            <select asp-for="tratamiento" class="form-control" asp-items="@Model.TratamientosList">
+                            <select asp-for="tratamiento.ID" class="form-control" asp-items="@Model.TratamientosList">
                                 <option value="">Seleccionar</option>
                             </select>
                             <span asp-validation-for="Paciente.Obrasocial" class="text-danger"></span>
@@ -66,11 +66,11 @@
 
                         <div class="form-group">
                             <label class="form-control-label">Plan farmacológico</label>
-                            <textarea  class="form-control"></textarea>
+                            <textarea asp-for="MedicacionAtencion"  class="form-control"></textarea>
                         </div>
                         <div class="form-group">
                             <label class="form-control-label">Comentario</label>
-                            <textarea  class="form-control"></textarea>
+                            <textarea asp-for="ComentarioAtencion" class="form-control"></textarea>
                         </div>
 
                     </div>
@@ -87,7 +87,7 @@
             </div>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                 <div class="card-body">
-                    <table class="table table-light">
+                    <table class="table table-bordered">
                         <col width="30%">
                         <col width="70%">
                         <tbody>
@@ -99,14 +99,7 @@
                                     <td>
                                         @if (item.Antecedente.EsListaOpciones)
                                         {
-                                            if (item.ValorBool == true)
-                                            {
-                                                <input type="checkbox" checked="checked" disabled="disabled" />@item.Antecedente.Descripcion
-                                            }
-                                            else
-                                            {
-                                                <input type="checkbox" disabled="disabled" />@item.Antecedente.Descripcion
-                                            }
+                                            
                                         }
                                         else if (item.Antecedente.EsTitulo)
                                         {
@@ -164,29 +157,47 @@
                                         @Html.DisplayNameFor(model => model.ate.FechaHora)
                                     </th>
                                     <th>
-                                            @Html.DisplayNameFor(model => model.ate.Titulo)
+                                        @Html.DisplayNameFor(model => model.ate.Titulo)
                                     </th>
                                     <th>
-                                            @Html.DisplayNameFor(model => model.ate.Diagnostico)
+                                        @Html.DisplayNameFor(model => model.ate.Diagnostico)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ate.Tratamiento)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ate.Medicacion)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ate.Comentario)
                                     </th>
 
-                                  
+
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model.AtencionesPaciente)
                                 {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.FechaHora)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Titulo)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Diagnostico)
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FechaHora)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Titulo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Diagnostico)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Tratamiento.Nombre)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Medicacion)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Comentario)
+                                    </td>
+                                </tr>
                                 }
                             </tbody>
                         </table>

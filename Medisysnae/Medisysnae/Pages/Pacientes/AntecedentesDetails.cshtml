@@ -20,46 +20,37 @@
 
         @foreach (var item in Model.AntecedentesPaciente)
         {
-        <tr>
-            <td>
-                @if (item.Antecedente.EsListaOpciones)
-                {
-                    if (item.ValorBool == true)
+            <tr>
+                <td>
+                    @if (item.Antecedente.EsListaOpciones)
                     {
-                        <input type="checkbox" checked="checked" disabled="disabled" />@item.Antecedente.Descripcion
 
+                    }
+                    else if (item.Antecedente.EsTitulo)
+                    {
+                        <h3>@Html.DisplayFor(modelItem => item.Antecedente.Descripcion)</h3>
                     }
                     else
                     {
-                        <input type="checkbox" disabled="disabled" />@item.Antecedente.Descripcion
+                        @Html.DisplayFor(modelItem => item.Antecedente.Descripcion)
+                    }
+                </td>
+                @if (!item.Antecedente.EsListaOpciones && !item.Antecedente.EsTitulo)
+                {
+                    if (item.Antecedente.EsTextArea)
+                    {
+                        <td>
+                            <textarea style="width:100%" disabled="disabled">@item.ValorString</textarea>
+                        </td>
+                    }
+                    else
+                    {
+                        <td width="100%">
+                            <input type="text" value="@item.ValorString" disabled="disabled" style="width:100%" />
+                        </td>
                     }
                 }
-                else if (item.Antecedente.EsTitulo)
-                {
-                    <h3>@Html.DisplayFor(modelItem => item.Antecedente.Descripcion)</h3>
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.Antecedente.Descripcion)
-                }
-            </td>
-            @if (!item.Antecedente.EsListaOpciones && !item.Antecedente.EsTitulo)
-            {
-                if (item.Antecedente.EsTextArea)
-                {
-                    <td>
-                        <textarea style="width:100%" disabled="disabled">@item.ValorString</textarea>
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        <input type="text" value="@item.ValorString" disabled="disabled" />
-                    </td>
-                }
-            }
-         
-        </tr>
+            </tr>
         }
     </tbody>
 </table>

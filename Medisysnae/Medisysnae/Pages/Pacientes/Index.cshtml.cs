@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Medisysnae.Data;
 using Medisysnae.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Medisysnae.Pages.Pacientes
 {
@@ -23,7 +24,7 @@ namespace Medisysnae.Pages.Pacientes
         {
             _context = context;
         }
-
+        public Profesional UsuarioActual { get; set; }
         public PaginatedList<Paciente> Paciente { get;set; }
 
         public async Task OnGetAsync(string sortOrder, string currentFilter, string searchString, int? pageIndex)
@@ -43,8 +44,13 @@ namespace Medisysnae.Pages.Pacientes
 
             CurrentFilter = searchString;
 
+            string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
+            UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
+
             IQueryable<Paciente> pacienteIQ = from p in _context.Paciente
                                             select p;
+
+            pacienteIQ = pacienteIQ.Where(p => p.Medico.NombreUsuario == UsuarioActual.NombreUsuario);
 
             if (!String.IsNullOrEmpty(searchString))
             {

@@ -34,10 +34,13 @@ namespace Medisysnae.Pages.Profesionales
                 return Page();
             }
 
+            Profesional.EstaHabilitado = true;
+            Profesional.EsAdministrador = false;
+
             _context.Profesional.Add(Profesional);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Index");
         }
     }
 }

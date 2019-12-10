@@ -1,5 +1,6 @@
 ﻿@page
 @model Medisysnae.Pages.Pacientes.AntecedentesModel
+@using Microsoft.AspNetCore.Http;
 @{
     ViewData["Title"] = "Antecedentes";
 }
@@ -9,65 +10,47 @@
 
 <form method="post" class="form-horizontal">
     <div class="form-group">
-        <input type="submit" value="Guardar" class="btn btn-primary" style="background-color:dodgerblue; border-color:dodgerblue"/>
+        <input type="submit" value="Guardar" class="btn btn-primary" style="background-color:dodgerblue; border-color:dodgerblue" />
         <a class="btn btn-danger" asp-page="./Index">Cancelar</a>
     </div>
+    <input type="hidden" asp-for="PacienteID" value="@Model.Paciente.ID" />
     <br />
     <table class="table table-bordered">
         <col width="30%">
         <col width="70%">
         <tbody>
 
-            @for (int i = 0; i < Model.AntecedentesPaciente.Count(); i++)
+            @for (int i = 0; i < Model.ListAntecedentes.Count(); i++)
             {
-            <tr>
-                <td>
-                    @if (Model.AntecedentesPaciente[i].Antecedente.EsListaOpciones)
-                    {
-                        if (Model.AntecedentesPaciente[i].ValorBool == true)
+                <tr>
+                    <td>
+                        @if (Model.ListAntecedentes[i].Antecedente.EsTitulo)
                         {
-                            <input type="hidden" asp-for="@Model.AntecedentesPaciente[i].ID" />
-                            <input type="hidden" asp-for="@Model.AntecedentesPaciente[i].ValorBool" />
-                            <input type="checkbox" checked="checked" />
-                            @Model.AntecedentesPaciente[i].Antecedente.Descripcion
+                        <input type="hidden" asp-for="ValoresAntecedentes" value="@Model.ListAntecedentes[i].ValorString" />
+                            <h3>@Html.DisplayFor(modelItem => Model.ListAntecedentes[i].Antecedente.Descripcion)</h3>
                         }
                         else
                         {
-                            <input type="hidden" asp-for="@Model.AntecedentesPaciente[i].ID" />
-                            <input type="checkbox" />
-                            @Model.AntecedentesPaciente[i].Antecedente.Descripcion
+                            @Html.DisplayFor(modelItem => Model.ListAntecedentes[i].Antecedente.Descripcion)
+                        }
+                    </td>
+                    @if (!Model.ListAntecedentes[i].Antecedente.EsListaOpciones && !Model.ListAntecedentes[i].Antecedente.EsTitulo)
+                    {
+                        if (Model.ListAntecedentes[i].Antecedente.EsTextArea)
+                        {
+                    <td>             
+                        <input asp-for="ValoresAntecedentes" value="@Model.ListAntecedentes[i].ValorString" style="width:100%" />
+                    </td>
+                        }
+                        else
+                        {
+                    <td>
+                        <input asp-for="ValoresAntecedentes" rows="40" type="text" value="@Model.ListAntecedentes[i].ValorString" style="width:100%" />
+                    </td>
                         }
                     }
-                    else if (Model.AntecedentesPaciente[i].Antecedente.EsTitulo)
-                    {
-                        <p></p>
-                        <h3>@Html.DisplayFor(modelItem => Model.AntecedentesPaciente[i].Antecedente.Descripcion)</h3>
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(modelItem => Model.AntecedentesPaciente[i].Antecedente.Descripcion)
-                    }
-                </td>
-                @if (!Model.AntecedentesPaciente[i].Antecedente.EsListaOpciones && !Model.AntecedentesPaciente[i].Antecedente.EsTitulo)
-                {
-                    if (Model.AntecedentesPaciente[i].Antecedente.EsTextArea)
-                    {
-                        <td>
-                            <textarea style="width:100%">@Model.AntecedentesPaciente[i].ValorString</textarea>
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <input type="text" value="@Model.AntecedentesPaciente[i].ValorString" style="width:100%" />
-                        </td>
-                    }
-                }
-                @if (Model.AntecedentesPaciente[i].Antecedente.EsListaOpciones || Model.AntecedentesPaciente[i].Antecedente.EsTitulo)
-                {
-                   
-                }
-            </tr>
+       
+                </tr>
             }
 
         </tbody>

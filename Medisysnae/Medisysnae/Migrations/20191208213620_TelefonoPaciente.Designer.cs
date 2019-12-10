@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Medisysnae.Migrations
 {
     [DbContext(typeof(MedisysnaeContext))]
-    [Migration("20191206195511_Tratamientos")]
-    partial class Tratamientos
+    [Migration("20191208213620_TelefonoPaciente")]
+    partial class TelefonoPaciente
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,7 +56,9 @@ namespace Medisysnae.Migrations
 
                     b.Property<int?>("PacienteID");
 
-                    b.Property<string>("Valor");
+                    b.Property<bool>("ValorBool");
+
+                    b.Property<string>("ValorString");
 
                     b.HasKey("ID");
 
@@ -75,6 +77,8 @@ namespace Medisysnae.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Comentario");
+
                     b.Property<string>("Descripcion");
 
                     b.Property<string>("Diagnostico");
@@ -82,6 +86,8 @@ namespace Medisysnae.Migrations
                     b.Property<bool>("EstaEliminada");
 
                     b.Property<DateTime>("FechaHora");
+
+                    b.Property<string>("Medicacion");
 
                     b.Property<string>("MedicoNombreUsuario");
 
@@ -159,7 +165,7 @@ namespace Medisysnae.Migrations
 
                     b.Property<int>("Obrasocial_ID");
 
-                    b.Property<int>("Telefono");
+                    b.Property<long>("Telefono");
 
                     b.HasKey("ID");
 
@@ -190,7 +196,7 @@ namespace Medisysnae.Migrations
                     b.Property<string>("Password")
                         .IsRequired();
 
-                    b.Property<int>("Telefono");
+                    b.Property<long>("Telefono");
 
                     b.HasKey("NombreUsuario");
 

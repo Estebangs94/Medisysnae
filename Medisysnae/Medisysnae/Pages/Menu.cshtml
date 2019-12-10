@@ -148,36 +148,65 @@
             <!--Text-->
             <p class="card-text">Administrar su perfil. Datos personales y especialidad.</p>
             <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
-            <a asp-page="/Profesionales/Index" style="color:white;" class="btn btn-primary">Ir a mi perfil</a>
+            <a asp-page="/Profesionales/Details" asp-route-id="@Model.UsuarioActual.NombreUsuario" style="color:white;" class="btn btn-primary">Ir a mi perfil </a>
 
         </div>
 
     </div>
     <!-- Card -->
     <!-- Card con style="visibility:hidden" podemos ocultar una card-->
-    <div class="card mb-4">
+    @if (Model.UsuarioActual.EsAdministrador)
+    {
+        <div class="card mb-4" >
 
-        <!--Card image-->
-        <div class="view overlay">
-            <img class="card-img-top" src="~/images/usuarios.png" alt="Card image cap">
-            <a href="#!">
-                <div class="mask rgba-white-slight"></div>
-            </a>
+            <!--Card image-->
+            <div class="view overlay">
+                <img class="card-img-top" src="~/images/usuarios.png" alt="Card image cap">
+                <a href="#!">
+                    <div class="mask rgba-white-slight"></div>
+                </a>
+            </div>
+
+            <!--Card content-->
+            <div class="card-body">
+
+                <!--Title-->
+                <h4 class="card-title">Usuarios</h4>
+                <!--Text-->
+                <p class="card-text">Administirar usuarios. Dar de alta o baja a profesionales y administradores</p>
+                <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                <a asp-page="/Profesionales/Index" style="color:white;" class="btn btn-primary">Ir a usuarios</a>
+
+            </div>
+
         </div>
+    }
+    else
+    {
+        <div class="card mb-4" style="visibility:hidden">
 
-        <!--Card content-->
-        <div class="card-body">
+            <!--Card image-->
+            <div class="view overlay">
+                <img class="card-img-top" src="~/images/usuarios.png" alt="Card image cap">
+                <a href="#!">
+                    <div class="mask rgba-white-slight"></div>
+                </a>
+            </div>
 
-            <!--Title-->
-            <h4 class="card-title">Usuarios</h4>
-            <!--Text-->
-            <p class="card-text">Administirar usuarios. Dar de alta o baja a profesionales y administradores</p>
-            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
-            <a asp-page="/Profesionales/Index" style="color:white;" class="btn btn-primary">Ir a usuarios</a>
+            <!--Card content-->
+            <div class="card-body">
+
+                <!--Title-->
+                <h4 class="card-title">Usuarios</h4>
+                <!--Text-->
+                <p class="card-text">Administirar usuarios. Dar de alta o baja a profesionales y administradores</p>
+                <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                <a asp-page="/Profesionales/Index" style="color:white;" class="btn btn-primary">Ir a usuarios</a>
+
+            </div>
 
         </div>
-
-    </div>
+    }
     <!-- Card -->
 
 </div>

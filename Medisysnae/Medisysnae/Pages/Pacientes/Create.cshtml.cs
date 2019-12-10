@@ -29,7 +29,8 @@ namespace Medisysnae.Pages.Pacientes
 
         private void CargarOS()
         {
-            ObrasSociales = _context.Obrasocial.ToList();
+            ObrasSociales = _context.Obrasocial.OrderBy(i => i.Nombre)
+                .ToList();
             ObraSocialList = new SelectList(ObrasSociales, "ID", "Nombre", null);
         }
 
@@ -48,6 +49,8 @@ namespace Medisysnae.Pages.Pacientes
             {
                 return Page();
             }
+            string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
+            UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
 
             Paciente.Obrasocial_ID = Paciente.Obrasocial.ID;
             Paciente.Obrasocial = null;
@@ -56,10 +59,11 @@ namespace Medisysnae.Pages.Pacientes
                 .Where(a => a.EstaActivo == true)
                 .ToListAsync();
 
+            Paciente.Medico = UsuarioActual;
+
             _context.Paciente.Add(Paciente);
 
-            string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
-            UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
+          
 
             foreach (Antecedente a in Antecedentes)
             {
@@ -67,7 +71,6 @@ namespace Medisysnae.Pages.Pacientes
                 ap.Antecedente = a;
                 ap.Paciente = Paciente;
                 ap.Medico = UsuarioActual;
-                ap.ValorBool = false;
                 ap.ValorString = "";
 
                 _context.AntecedentePaciente.Add(ap);

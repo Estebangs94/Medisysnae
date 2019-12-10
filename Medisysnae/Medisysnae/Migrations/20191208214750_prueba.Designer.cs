@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Medisysnae.Migrations
 {
     [DbContext(typeof(MedisysnaeContext))]
-    [Migration("20191112215923_Antecedentetitulo")]
-    partial class Antecedentetitulo
+    [Migration("20191208214750_prueba")]
+    partial class prueba
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,7 +56,9 @@ namespace Medisysnae.Migrations
 
                     b.Property<int?>("PacienteID");
 
-                    b.Property<string>("Valor");
+                    b.Property<bool>("ValorBool");
+
+                    b.Property<string>("ValorString");
 
                     b.HasKey("ID");
 
@@ -75,17 +77,25 @@ namespace Medisysnae.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Comentario");
+
                     b.Property<string>("Descripcion");
+
+                    b.Property<string>("Diagnostico");
 
                     b.Property<bool>("EstaEliminada");
 
                     b.Property<DateTime>("FechaHora");
 
+                    b.Property<string>("Medicacion");
+
                     b.Property<string>("MedicoNombreUsuario");
 
                     b.Property<int?>("PacienteID");
 
-                    b.Property<int?>("TratamientoID");
+                    b.Property<string>("Titulo");
+
+                    b.Property<int>("Trat_ID");
 
                     b.HasKey("ID");
 
@@ -93,7 +103,7 @@ namespace Medisysnae.Migrations
 
                     b.HasIndex("PacienteID");
 
-                    b.HasIndex("TratamientoID");
+                    b.HasIndex("Trat_ID");
 
                     b.ToTable("Atencion");
                 });
@@ -155,7 +165,7 @@ namespace Medisysnae.Migrations
 
                     b.Property<int>("Obrasocial_ID");
 
-                    b.Property<int>("Telefono");
+                    b.Property<long>("Telefono");
 
                     b.HasKey("ID");
 
@@ -186,7 +196,7 @@ namespace Medisysnae.Migrations
                     b.Property<string>("Password")
                         .IsRequired();
 
-                    b.Property<int>("Telefono");
+                    b.Property<long>("Telefono");
 
                     b.HasKey("NombreUsuario");
 
@@ -269,7 +279,8 @@ namespace Medisysnae.Migrations
 
                     b.HasOne("Medisysnae.Models.Tratamiento", "Tratamiento")
                         .WithMany()
-                        .HasForeignKey("TratamientoID");
+                        .HasForeignKey("Trat_ID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Medisysnae.Models.Especialidad", b =>

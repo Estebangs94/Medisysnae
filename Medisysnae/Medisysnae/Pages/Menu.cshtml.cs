@@ -13,7 +13,9 @@ namespace Medisysnae.Pages
     public class MenuModel : PageModel
     {
         private readonly Medisysnae.Data.MedisysnaeContext _context;
-        public Profesional UsuarioActual;
+
+        [BindProperty]
+        public Profesional UsuarioActual { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -21,8 +23,6 @@ namespace Medisysnae.Pages
 
             string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
             UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
-
-
         }
 
         public MenuModel(Medisysnae.Data.MedisysnaeContext context)

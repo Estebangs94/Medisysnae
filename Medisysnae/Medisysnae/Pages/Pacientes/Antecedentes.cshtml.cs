@@ -23,7 +23,15 @@ namespace Medisysnae.Pages.Pacientes
         public Paciente Paciente { get; set; }
 
         [BindProperty]
-        public IList<Antecedentespaciente> AntecedentesPaciente { get; set; }
+        public int PacienteID { get; set; }
+        [BindProperty]
+        public int[] IDsAntecedentes { get; set; }
+
+        [BindProperty]
+        public string[] ValoresAntecedentes { get; set; }
+
+        
+        public IList<Antecedentespaciente> ListAntecedentes { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -39,15 +47,23 @@ namespace Medisysnae.Pages.Pacientes
                 return NotFound();
             }
 
-            AntecedentesPaciente = await _context.AntecedentePaciente
+            ListAntecedentes = await _context.AntecedentePaciente
                 .Include(i => i.Paciente)
                 .Include(i => i.Antecedente)
                 .Include(i => i.Medico)
                 .OrderBy(i => i.Antecedente.Orden)
                 .ToListAsync();
 
-            AntecedentesPaciente = AntecedentesPaciente.Where(a => a.Paciente.ID == Paciente.ID)
+            ListAntecedentes = ListAntecedentes.Where(a => a.Paciente.ID == Paciente.ID)
                                     .ToList();
+
+            ValoresAntecedentes = new string[75];
+
+            for (int i = 0; i < ListAntecedentes.Count(); i++)
+            {
+                ValoresAntecedentes[i] = ListAntecedentes[i].ValorString;
+            }
+
             return Page();
         }
 
@@ -58,9 +74,24 @@ namespace Medisysnae.Pages.Pacientes
                 return Page();
             }
 
-            AntecedentesPaciente = AntecedentesPaciente;
+            Paciente = await _context.Paciente.FirstOrDefaultAsync(m => m.ID == PacienteID);
 
+            IList<Antecedentespaciente> antecedentes = await _context.AntecedentePaciente
+                .Include(i => i.Paciente)
+                .Include(i => i.Antecedente)
+                .Include(i => i.Medico)
+                .Where(i => i.Paciente.ID == PacienteID)
+                .OrderBy(i => i.Antecedente.Orden)
+                .ToListAsync();
 
+            for (int i = 0; i < antecedentes.Count(); i++)
+            {
+                antecedentes[i].ValorString = ValoresAntecedentes[i];
+                _context.Attach(antecedentes[i]).State = EntityState.Modified;
+            }
+
+           
+            await _context.SaveChangesAsync();
             return RedirectToPage("./Index");
         }
     }

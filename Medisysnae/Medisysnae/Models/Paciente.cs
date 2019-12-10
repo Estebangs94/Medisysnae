@@ -28,7 +28,7 @@ namespace Medisysnae.Models
         #endregion
 
         public string Domicilio { get; set; }
-        public int Telefono { get; set; }
+        public Int64 Telefono { get; set; }
         [Display(Name ="Nro afiliado")]
         public string NroAfiliado { get; set; }
         public string Comentario { get; set; }

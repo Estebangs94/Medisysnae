@@ -11,11 +11,12 @@ namespace Medisysnae.Models
         //ya que el paciente llama al prof, toma sus datos perosnales y luego en la primer consulta
         //le hace una entrevista y carga sus antecedentes
         public int ID { get; set; }
+
         public Antecedente Antecedente { get; set; }
         public Paciente Paciente { get; set; }
         public Profesional Medico { get; set; }
         public string ValorString { get; set; }
-        public bool ValorBool { get; set; }
+
     
 
         //https://docs.microsoft.com/en-us/aspnet/core/data/ef-rp/crud?view=aspnetcore-2.1#overposting

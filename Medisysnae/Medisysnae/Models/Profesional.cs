@@ -29,7 +29,13 @@ namespace Medisysnae.Models
         [Required(ErrorMessage = "El campo apellido es obligatorio")]
         public string Apellido { get; set; }
         public string Matricula { get; set; }
-        public int Telefono { get; set; }
+        [Display(Name = "Dirección")]
+        public string Direccion { get; set; }
+        [Required(ErrorMessage = "El campo D.N.I es obligatorio")]
+        [Display(Name = "D.N.I")]
+        public string DNI { get; set; }
+
+        public Int64 Telefono { get; set; } //Tiene que ser int64 sino no le dan los bits para representar el nro
 
         public IList<Especialidad> Especialidades { get; set; }
 

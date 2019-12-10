@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Medisysnae.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InicialAgain : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,9 @@ namespace Medisysnae.Migrations
                     Descripcion = table.Column<string>(nullable: true),
                     EstaActivo = table.Column<bool>(nullable: false),
                     EsListaOpciones = table.Column<bool>(nullable: false),
-                    Orden = table.Column<int>(nullable: false)
+                    Orden = table.Column<int>(nullable: false),
+                    EsTextArea = table.Column<bool>(nullable: false),
+                    EsTitulo = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -141,7 +143,8 @@ namespace Medisysnae.Migrations
                     AntecedenteID = table.Column<int>(nullable: true),
                     PacienteID = table.Column<int>(nullable: true),
                     MedicoNombreUsuario = table.Column<string>(nullable: true),
-                    Valor = table.Column<string>(nullable: true)
+                    ValorString = table.Column<string>(nullable: true),
+                    ValorBool = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -175,9 +178,13 @@ namespace Medisysnae.Migrations
                     MedicoNombreUsuario = table.Column<string>(nullable: true),
                     PacienteID = table.Column<int>(nullable: true),
                     FechaHora = table.Column<DateTime>(nullable: false),
-                    TratamientoID = table.Column<int>(nullable: true),
+                    Tratamiento_ID = table.Column<int>(nullable: false),
+                    Diagnostico = table.Column<string>(nullable: true),
+                    Titulo = table.Column<string>(nullable: true),
                     Descripcion = table.Column<string>(nullable: true),
-                    EstaEliminada = table.Column<bool>(nullable: false)
+                    EstaEliminada = table.Column<bool>(nullable: false),
+                    Medicacion = table.Column<string>(nullable: true),
+                    Comentario = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -195,11 +202,11 @@ namespace Medisysnae.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Atencion_Tratamiento_TratamientoID",
-                        column: x => x.TratamientoID,
+                        name: "FK_Atencion_Tratamiento_Tratamiento_ID",
+                        column: x => x.Tratamiento_ID,
                         principalTable: "Tratamiento",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -263,9 +270,9 @@ namespace Medisysnae.Migrations
                 column: "PacienteID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Atencion_TratamientoID",
+                name: "IX_Atencion_Tratamiento_ID",
                 table: "Atencion",
-                column: "TratamientoID");
+                column: "Tratamiento_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Especialidad_ProfesionalNombreUsuario",

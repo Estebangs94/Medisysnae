@@ -17,17 +17,26 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Profesional.NombreUsuario)
         </dd>
+        @if (Model.UsuarioActual.EsAdministrador)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Profesional.Habilitado)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Profesional.Habilitado)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Profesional.Rol)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Profesional.Rol)
+            </dd>
+        }
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Profesional.Habilitado)
+            @Html.DisplayNameFor(model => model.Profesional.DNI)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Profesional.Habilitado)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Profesional.Rol)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Profesional.Rol)
+            @Html.DisplayFor(model => model.Profesional.DNI)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Profesional.Nombre)
@@ -42,10 +51,10 @@
             @Html.DisplayFor(model => model.Profesional.Apellido)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Profesional.Matricula)
+            @Html.DisplayNameFor(model => model.Profesional.Direccion)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Profesional.Matricula)
+            @Html.DisplayFor(model => model.Profesional.Direccion)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Profesional.Telefono)
@@ -53,9 +62,19 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Profesional.Telefono)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Profesional.Matricula)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Profesional.Matricula)
+        </dd>
+
     </dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.Profesional.NombreUsuario">Editar</a> |
-    <a asp-page="./Index">Volver a la lista</a>
+    <a asp-page="./Edit" asp-route-id="@Model.Profesional.NombreUsuario">Editar</a>
+    @if (Model.UsuarioActual.EsAdministrador) { 
+
+     <a asp-page="./Index">| Volver a la lista</a>
+    }
 </div>

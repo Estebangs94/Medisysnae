@@ -4,66 +4,94 @@
 @{
     ViewData["Title"] = "Create";
 }
+@{
+    Layout = null;
+}
 
-<h1>Crear Usuario</h1>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Medisysnae</title>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css" />
+    <environment include="Development">
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Profesional.NombreUsuario" class="control-label"></label>
-                <input asp-for="Profesional.NombreUsuario" class="form-control" />
-                <span asp-validation-for="Profesional.NombreUsuario" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Profesional.Password" class="control-label"></label>
-                <input asp-for="Profesional.Password" class="form-control" />
-                <span asp-validation-for="Profesional.Password" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Profesional.EstaHabilitado" />
-                    Habilitado
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Profesional.EsAdministrador" />@Html.DisplayNameFor(model => model.Profesional.EsAdministrador)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Profesional.Nombre" class="control-label"></label>
-                <input asp-for="Profesional.Nombre" class="form-control" />
-                <span asp-validation-for="Profesional.Nombre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Profesional.Apellido" class="control-label"></label>
-                <input asp-for="Profesional.Apellido" class="form-control" />
-                <span asp-validation-for="Profesional.Apellido" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Profesional.Matricula" class="control-label"></label>
-                <input asp-for="Profesional.Matricula" class="form-control" />
-                <span asp-validation-for="Profesional.Matricula" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Profesional.Telefono" class="control-label"></label>
-                <input asp-for="Profesional.Telefono" class="form-control" />
-                <span asp-validation-for="Profesional.Telefono" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Crear" class="btn btn-primary" />
-            </div>
-        </form>
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment exclude="Development">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+    </environment>
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <style>
+
+
+        .nav li a {
+            color: #FFF;
+        }
+    </style>
+</head>
+
+<div style="padding-left:5%">
+    <h1>Crear usuario</h1>
+
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Profesional.NombreUsuario" class="control-label"></label>
+                    <input asp-for="Profesional.NombreUsuario" class="form-control" />
+                    <span asp-validation-for="Profesional.NombreUsuario" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Profesional.Password" class="control-label"></label>
+                    <input asp-for="Profesional.Password" class="form-control" />
+                    <span asp-validation-for="Profesional.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Profesional.DNI" class="control-label"></label>
+                    <input asp-for="Profesional.DNI" class="form-control" />
+                    <span asp-validation-for="Profesional.DNI" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Profesional.Nombre" class="control-label"></label>
+                    <input asp-for="Profesional.Nombre" class="form-control" />
+                    <span asp-validation-for="Profesional.Nombre" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Profesional.Apellido" class="control-label"></label>
+                    <input asp-for="Profesional.Apellido" class="form-control" />
+                    <span asp-validation-for="Profesional.Apellido" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Profesional.Direccion" class="control-label"></label>
+                    <input asp-for="Profesional.Direccion" class="form-control" />
+                    <span asp-validation-for="Profesional.Direccion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Profesional.Telefono" class="control-label"></label>
+                    <input asp-for="Profesional.Telefono" class="form-control" />
+                    <span asp-validation-for="Profesional.Telefono" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Profesional.Matricula" class="control-label"></label>
+                    <input asp-for="Profesional.Matricula" class="form-control" />
+                    <span asp-validation-for="Profesional.Matricula" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Crear" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-page="Index">Volver a la lista</a>
 </div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
