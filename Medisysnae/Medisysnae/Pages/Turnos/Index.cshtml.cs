@@ -2,25 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Medisysnae.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace Medisysnae.Pages
+namespace Medisysnae.Pages.Turnos
 {
-    public class MenuModel : PageModel
+    public class IndexModel : PageModel
     {
+
         private readonly Medisysnae.Data.MedisysnaeContext _context;
 
         [BindProperty]
         public Profesional UsuarioActual { get; set; }
 
-        public async Task<IActionResult> OnGetAsync()
-        {
-            //Configurar recuperacion de usuario para mostrar Datos Login
+        public Agenda Agenda { get; set; }
 
+        public async Task<IActionResult> OnGet()
+        {
             string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
 
             if (NombreUsuarioActual == null)
@@ -31,13 +32,13 @@ namespace Medisysnae.Pages
             }
 
             UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
+
             return Page();
         }
 
-        public MenuModel(Medisysnae.Data.MedisysnaeContext context)
+        public IndexModel(Medisysnae.Data.MedisysnaeContext context)
         {
             _context = context;
         }
-        
     }
 }

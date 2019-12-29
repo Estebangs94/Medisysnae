@@ -1,0 +1,29 @@
+﻿@page
+@model Medisysnae.Pages.Turnos.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Mis Turnos</h1>
+<table class="table-responsive table-striped">
+    <thead class="font-weight-bold">
+        <tr>
+            <td>
+                Hora comienzo
+            </td>
+        </tr>
+    </thead>
+        @for (int j = 8; j < 20; j++)
+        {
+
+            for (int i = 0; i < 3; i++)
+            {
+                int tiempo = i * 20;
+                TimeSpan turno = new TimeSpan(j, tiempo, 0);
+    <tr>
+        <td>@turno.ToString(@"hh\:mm")</td>
+    </tr>
+       }
+    }
+        
+    </table>

@@ -42,7 +42,7 @@ namespace Medisysnae
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
-                options.IdleTimeout = TimeSpan.FromSeconds(1000000);
+                options.IdleTimeout = TimeSpan.FromSeconds(600);
                 options.Cookie.HttpOnly = true;
                 // Make the session cookie essential
                 options.Cookie.IsEssential = true;
@@ -58,6 +58,7 @@ namespace Medisysnae
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseExceptionHandler("/Error");
             }
             else
             {
