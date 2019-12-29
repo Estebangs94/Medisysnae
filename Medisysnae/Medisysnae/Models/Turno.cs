@@ -9,11 +9,12 @@ namespace Medisysnae.Models
     {
         public int ID { get; set; }
 
-        public Profesional Medico { get; set; }
-        public Paciente Paciente { get; set; }
-        public DateTime FechaHora { get; set; }
-        public Tratamiento Tratamiento { get; set; }
-        public enum Estado { Otorgado, Recepcionado, Cancelado};
+        public int CodMedico { get; set; }
+        public int CodPaciente { get; set; }
+        public DateTime FechaTurno { get; set; }
+        public enum Estado { Otorgado, Reservado, Cancelado, Atendido, Bloqueado};
+        public DateTime? HoraComienzo { get; set; }
+        public DateTime? HoraFin { get; set; }
         public DateTime? FechaHoraCancelacion { get; set; }
 
     }

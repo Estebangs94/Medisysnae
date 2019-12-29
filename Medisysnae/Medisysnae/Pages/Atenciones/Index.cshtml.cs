@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Medisysnae.Data;
 using Medisysnae.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Medisysnae.Pages.Atenciones
 {
@@ -25,6 +26,7 @@ namespace Medisysnae.Pages.Atenciones
         }
 
         public PaginatedList<Paciente> Paciente { get; set; }
+        public Profesional UsuarioActual { get; set; }
 
         public async Task OnGetAsync(string sortOrder, string currentFilter, string searchString, int? pageIndex)
         {
@@ -51,6 +53,10 @@ namespace Medisysnae.Pages.Atenciones
                 pacienteIQ = pacienteIQ.Where(p => p.Apellido.Contains(searchString) || p.Nombre.Contains(searchString));
             }
 
+            string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
+            UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
+
+            pacienteIQ = pacienteIQ.Where(p => p.Medico.NombreUsuario == UsuarioActual.NombreUsuario);
 
             switch (sortOrder)
             {
@@ -72,7 +78,7 @@ namespace Medisysnae.Pages.Atenciones
             Paciente = await PaginatedList<Paciente>.CreateAsync(
                 pacienteIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
 
-            //Paciente = await pacienteIQ.AsNoTracking().ToListAsync();
+
             foreach (Paciente pac in Paciente)
             {
                 pac.Obrasocial = await _context.Obrasocial.FirstOrDefaultAsync(m => m.ID == pac.Obrasocial_ID);

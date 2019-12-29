@@ -1,0 +1,1 @@
+﻿UPDATE dbo.Antecedente SET EsListaOpciones = 0 WHERE EsListaOpciones = 1
