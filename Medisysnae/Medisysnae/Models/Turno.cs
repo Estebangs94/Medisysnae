@@ -16,6 +16,7 @@ namespace Medisysnae.Models
         public TimeSpan HoraComienzo { get; set; }
         public TimeSpan HoraFin { get; set; }
         public DateTime? FechaHoraCancelacion { get; set; }
+        public string Comentario { get; set; }
 
     }
 }

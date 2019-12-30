@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Medisysnae.Data;
 using Medisysnae.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace Medisysnae.Pages.Turnos
 {
@@ -18,9 +20,10 @@ namespace Medisysnae.Pages.Turnos
         [BindProperty]
         public Profesional UsuarioActual { get; set; }
 
-        public Agenda Agenda { get; set; }
+        [BindProperty]
+        public DateTime DiaActual { get; set; }
 
-        public async Task<IActionResult> OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
             string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
 
@@ -32,7 +35,7 @@ namespace Medisysnae.Pages.Turnos
             }
 
             UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
-
+            DiaActual = DateTime.Now;
             return Page();
         }
 
@@ -40,5 +43,12 @@ namespace Medisysnae.Pages.Turnos
         {
             _context = context;
         }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            DiaActual = DiaActual.AddDays(1);
+            return Page();
+        }
+
     }
 }

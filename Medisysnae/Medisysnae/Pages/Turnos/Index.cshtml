@@ -4,15 +4,35 @@
     ViewData["Title"] = "Index";
 }
 
+
+
+
 <h1>Mis Turnos</h1>
-<table class="table-responsive table-striped">
-    <thead class="font-weight-bold">
-        <tr>
-            <td>
-                Hora comienzo
-            </td>
-        </tr>
-    </thead>
+<form method="post">
+    <h3>Turnos del día @Model.DiaActual.ToString("MMMM dd, yyyy")</h3>
+
+
+    <input asp-for="DiaActual" hidden />
+    <button type="submit" class="btn btn-primary">Prueba</button>
+    <br />
+    <br />
+    <table class="table-responsive table-striped table-bordered" style="width:70%">
+        <thead class="font-weight-bold">
+            <tr>
+                <td style="width:25%">
+                    Hora comienzo
+                </td>
+                <td style="width:35%">
+                    Paciente
+                </td>
+                <td style="width:35%">
+                    Comentario
+                </td>
+                <td style="width:25%">
+                    Acciones
+                </td>
+            </tr>
+        </thead>
         @for (int j = 8; j < 20; j++)
         {
 
@@ -20,10 +40,14 @@
             {
                 int tiempo = i * 20;
                 TimeSpan turno = new TimeSpan(j, tiempo, 0);
-    <tr>
-        <td>@turno.ToString(@"hh\:mm")</td>
-    </tr>
-       }
-    }
-        
+        <tr>
+            <td>@turno.ToString(@"hh\:mm")</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+            }
+        }
+
     </table>
+</form>
