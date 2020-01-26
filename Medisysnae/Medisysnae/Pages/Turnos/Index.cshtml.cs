@@ -19,12 +19,24 @@ namespace Medisysnae.Pages.Turnos
 
         [BindProperty]
         public Profesional UsuarioActual { get; set; }
-
+        
         [BindProperty]
         public DateTime DiaActual { get; set; }
+        
+        [BindProperty]
+        public int Contador { get; set; }
+
+        [BindProperty]
+        public List<Turno> Turnos { get; set; }
+        [BindProperty]
+        public List<int> Numeros { get; set; }
+
+        public SelectList PacienteList { get; set; }
+        public List<Paciente> Pacientes { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
+            Contador = 0;
             string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
 
             if (NombreUsuarioActual == null)
@@ -35,7 +47,10 @@ namespace Medisysnae.Pages.Turnos
             }
 
             UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
-            DiaActual = DateTime.Now;
+            DiaActual = DateTime.Now.Date;
+
+            this.CargarPacientes();
+
             return Page();
         }
 
@@ -46,8 +61,30 @@ namespace Medisysnae.Pages.Turnos
 
         public async Task<IActionResult> OnPostAsync()
         {
-            DiaActual = DiaActual.AddDays(1);
+            Contador = 0;
+
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostChangeDate(DateTime date)
+        {
+            Contador = 0;
+             
+            DiaActual = date;
+
+            //realizar busqueda de turnos del dia
+
+            this.CargarPacientes();
+
+            return Page();
+        }
+
+
+        private void CargarPacientes()
+        {
+            Pacientes = _context.Paciente.OrderBy(i => i.ApellidoNombre)
+                .ToList();
+            PacienteList = new SelectList(Pacientes, "ID", "ApellidoNombre", null);
         }
 
     }

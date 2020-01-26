@@ -5,49 +5,77 @@
 }
 
 
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script>
+        function myFunction() {
+            document.getElementById("dateInput").value = document.getElementById("test").value
+            $("#formSumbit").submit();
+        }
+    </script>
+
+
+</head>
 
 
 <h1>Mis Turnos</h1>
-<form method="post">
+<form asp-page-handler="changeDate" method="post" id="formSumbit">
     <h3>Turnos del día @Model.DiaActual.ToString("MMMM dd, yyyy")</h3>
+    <input asp-for="@Model.DiaActual" onchange="myFunction()" id="test" type="date"/>
+    <input type="hidden" name="date" id="dateInput"  />
+</form>
 
 
-    <input asp-for="DiaActual" hidden />
-    <button type="submit" class="btn btn-primary">Prueba</button>
-    <br />
-    <br />
-    <table class="table-responsive table-striped table-bordered" style="width:70%">
-        <thead class="font-weight-bold">
+<br />
+<br />
+<form method="post">
+    <div class="form-group">
+        <input type="submit" value="Crear" class="btn btn-primary" />
+    </div>
+    <table class="table table-striped table-responsive-md btn-table">
+        <thead>
             <tr>
-                <td style="width:25%">
-                    Hora comienzo
-                </td>
-                <td style="width:35%">
-                    Paciente
-                </td>
-                <td style="width:35%">
-                    Comentario
-                </td>
-                <td style="width:25%">
-                    Acciones
-                </td>
+                <th>Hora comienzo</th>
+                <th>Paciente</th>
+                <th>Comentario</th>
+                <th>Acciones</th>
             </tr>
         </thead>
-        @for (int j = 8; j < 20; j++)
-        {
 
-            for (int i = 0; i < 3; i++)
+        <tbody>
+            
+            @for (int j = 8; j < 20; j++)
             {
-                int tiempo = i * 20;
-                TimeSpan turno = new TimeSpan(j, tiempo, 0);
-        <tr>
-            <td>@turno.ToString(@"hh\:mm")</td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+
+                for (int i = 0; i < 3; i++)
+                {
+                    Model.Contador += 1;
+                    int tiempo = i * 20;
+                    TimeSpan turno = new TimeSpan(j, tiempo, 0);
+                    <tr>
+                        
+                        <td>
+                            @turno.ToString(@"hh\:mm")
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <select asp-for="Numeros[Model.Contador]" class="form-control" asp-items="@Model.PacienteList">
+                                    <option value="">Seleccionar</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <input type="text" asp-for="Turnos[Model.Contador].Comentario" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="checkbox" class="custom-checkbox" />
+                        </td>
+                    </tr>
+                }
             }
-        }
+        </tbody>
 
     </table>
 </form>
