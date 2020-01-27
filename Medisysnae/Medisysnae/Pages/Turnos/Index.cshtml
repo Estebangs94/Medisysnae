@@ -60,17 +60,13 @@
                             @turno.ToString(@"hh\:mm")
                         </td>
                         <td>
-                            <div class="form-group">
-                                <select asp-for="Numeros[Model.Contador]" class="form-control" asp-items="@Model.PacienteList">
-                                    <option value="">Seleccionar</option>
-                                </select>
-                            </div>
+
                         </td>
                         <td>
-                            <input type="text" asp-for="Turnos[Model.Contador].Comentario" class="form-control" />
+
                         </td>
                         <td>
-                            <input type="checkbox" class="custom-checkbox" />
+                            <a asp-page="./Create">Link de prueba</a>
                         </td>
                     </tr>
                 }
