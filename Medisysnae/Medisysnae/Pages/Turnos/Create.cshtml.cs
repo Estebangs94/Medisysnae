@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Medisysnae.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Medisysnae.Data;
+using Medisysnae.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace Medisysnae.Pages.Turnos
 {
@@ -15,6 +18,8 @@ namespace Medisysnae.Pages.Turnos
         public Turno TurnoActual { get; set; }
         [BindProperty]
         public string EstadoActual { get; set; }
+
+        public Profesional UsuarioActual { get; set; }
 
         public SelectList EstadosList { get; set; }
         public SelectList PacientesList { get; set; }
@@ -55,7 +60,15 @@ namespace Medisysnae.Pages.Turnos
 
         public async Task<IActionResult> OnPostAsync()
         {
+            string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
+            UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
 
+            TurnoActual.Paciente_ID = TurnoActual.Paciente.ID;
+            TurnoActual.Paciente = null;
+            TurnoActual.NombreUsuario = UsuarioActual.NombreUsuario;
+
+            _context.Turno.Add(TurnoActual);
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }

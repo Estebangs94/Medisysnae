@@ -22,21 +22,31 @@ namespace Medisysnae.Pages.Turnos
         
         [BindProperty]
         public DateTime DiaActual { get; set; }
-        
-        [BindProperty]
-        public int Contador { get; set; }
+
 
         [BindProperty]
         public List<Turno> Turnos { get; set; }
-        [BindProperty]
-        public List<int> Numeros { get; set; }
 
-        public SelectList PacienteList { get; set; }
-        public List<Paciente> Pacientes { get; set; }
+
+        public IndexModel(Medisysnae.Data.MedisysnaeContext context)
+        {
+            _context = context;
+        }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            Contador = 0;
+            DiaActual = DateTime.Now.Date;
+            return await CargarTurnos(DiaActual);
+        }
+
+        public async Task<IActionResult> OnPostChangeDate(DateTime date)
+        {          
+            DiaActual = date;
+            return await CargarTurnos(DiaActual);
+        }
+
+        private async Task<IActionResult> CargarTurnos(DateTime date)
+        {
             string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
 
             if (NombreUsuarioActual == null)
@@ -47,44 +57,20 @@ namespace Medisysnae.Pages.Turnos
             }
 
             UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
-            DiaActual = DateTime.Now.Date;
 
-            this.CargarPacientes();
+            IQueryable<Turno> turnoIQ = from t in _context.Turno
+                                        select t;
+            turnoIQ = turnoIQ.Where(t => t.NombreUsuario == UsuarioActual.NombreUsuario);
+            turnoIQ = turnoIQ.Where(t => t.FechaTurno.Date == date.Date);
 
-            return Page();
-        }
+            Turnos = await turnoIQ.ToListAsync();
 
-        public IndexModel(Medisysnae.Data.MedisysnaeContext context)
-        {
-            _context = context;
-        }
-
-        public async Task<IActionResult> OnPostAsync()
-        {
-            Contador = 0;
+            foreach (var item in Turnos)
+            {
+                item.Paciente = await _context.Paciente.FirstOrDefaultAsync(m => m.ID == item.Paciente_ID);
+            }
 
             return Page();
-        }
-
-        public async Task<IActionResult> OnPostChangeDate(DateTime date)
-        {
-            Contador = 0;
-             
-            DiaActual = date;
-
-            //realizar busqueda de turnos del dia
-
-            this.CargarPacientes();
-
-            return Page();
-        }
-
-
-        private void CargarPacientes()
-        {
-            Pacientes = _context.Paciente.OrderBy(i => i.ApellidoNombre)
-                .ToList();
-            PacienteList = new SelectList(Pacientes, "ID", "ApellidoNombre", null);
         }
 
     }
