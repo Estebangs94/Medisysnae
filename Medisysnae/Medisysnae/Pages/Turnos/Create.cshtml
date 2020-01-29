@@ -6,13 +6,14 @@
 
 <head>
     <style>
-        .control-label{
+        .control-label {
             font-size: 18px;
         }
     </style>
 </head>
 
 <h1>Crear turno</h1>
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
 <div class="row">
     <div class="col-md-6">
         <form method="post">
