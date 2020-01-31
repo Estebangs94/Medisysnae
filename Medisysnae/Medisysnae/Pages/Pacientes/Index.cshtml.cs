@@ -50,7 +50,8 @@ namespace Medisysnae.Pages.Pacientes
             IQueryable<Paciente> pacienteIQ = from p in _context.Paciente
                                             select p;
 
-            pacienteIQ = pacienteIQ.Where(p => p.Medico.NombreUsuario == UsuarioActual.NombreUsuario);
+            pacienteIQ = pacienteIQ.Where(p => p.Medico.NombreUsuario == UsuarioActual.NombreUsuario)
+                                   .OrderBy(p => p.Apellido);
 
             if (!String.IsNullOrEmpty(searchString))
             {

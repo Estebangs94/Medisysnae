@@ -18,6 +18,8 @@ namespace Medisysnae.Pages.Turnos
         public Turno TurnoActual { get; set; }
         [BindProperty]
         public string EstadoActual { get; set; }
+        [BindProperty]
+        public DateTime DiaActual { get; set; }
 
         public Profesional UsuarioActual { get; set; }
 
@@ -34,8 +36,14 @@ namespace Medisysnae.Pages.Turnos
 
         public IActionResult OnGet()
         {
+            string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
+            UsuarioActual = _context.Profesional.FirstOrDefault(m => m.NombreUsuario == NombreUsuarioActual);
+
             CargarPacientes();
             CargarEstados();
+
+            TurnoActual = new Turno();
+            TurnoActual.FechaTurno = DateTime.Now.Date;
 
             return Page();
         }
@@ -44,8 +52,6 @@ namespace Medisysnae.Pages.Turnos
         {
             List<string> Estados = new List<string>();
             Estados.Add(Turno.Accion.Bloquear.ToString());
-            Estados.Add(Turno.Accion.Cancelar.ToString());
-            Estados.Add(Turno.Accion.Reservar.ToString());
 
             EstadosList = new SelectList(Estados);
         }
@@ -53,13 +59,15 @@ namespace Medisysnae.Pages.Turnos
         private void CargarPacientes()
         {
             Pacientes = _context.Paciente.OrderBy(i => i.ApellidoNombre)
+                .Include(m => m.Medico)
+                .Where(p => p.Medico.NombreUsuario == UsuarioActual.NombreUsuario)
                 .ToList();
             PacientesList = new SelectList(Pacientes, "ID", "ApellidoNombre", null);
-           
+
         }
 
         public async Task<IActionResult> OnPostAsync()
-        {            
+        {
             string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
             UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
 
@@ -73,31 +81,11 @@ namespace Medisysnae.Pages.Turnos
             turnosDiaProfesional = turnosDiaProfesional.Where(t => t.NombreUsuario == UsuarioActual.NombreUsuario).ToList();
             turnosDiaProfesional = turnosDiaProfesional.Where(t => t.FechaTurno.Date == TurnoActual.FechaTurno.Date).ToList();
 
-            if(turnosDiaProfesional.Count > 0)
+            if (!Validar(turnosDiaProfesional))
             {
-                foreach (var t in turnosDiaProfesional)
-                {
-                    if(TurnoActual.HoraComienzo > t.HoraComienzo && TurnoActual.HoraComienzo < t.HoraFin)
-                    {
-                        ModelState.AddModelError(string.Empty, $"El turno que ha intentado ingresar se superpone con el turno que comienza a las: {t.HoraComienzo.ToString()}" +
-                            $" y finaliza a las {t.HoraFin.ToString()} horas."); //forma de mostrar error al usuario
-                        return Page();
-                    }
-
-                    if(TurnoActual.HoraFin > t.HoraComienzo && TurnoActual.HoraFin < t.HoraFin)
-                    {
-                        ModelState.AddModelError(string.Empty, $"El turno que ha intentado ingresar se superpone con el turno que comienza a las: {t.HoraComienzo.ToString()}" +
-                            $" y finaliza a las {t.HoraFin.ToString()} horas."); //forma de mostrar error al usuario
-                        return Page();
-                    }
-
-                    if(TurnoActual.HoraComienzo <= t.HoraComienzo && TurnoActual.HoraFin >= t.HoraComienzo)
-                    {
-                        ModelState.AddModelError(string.Empty, $"El turno que ha intentado ingresar se superpone con el turno que comienza a las: {t.HoraComienzo.ToString()}" +
-                            $" y finaliza a las {t.HoraFin.ToString()} horas."); //forma de mostrar error al usuario
-                        return Page();
-                    }
-                }
+                CargarPacientes();
+                CargarEstados();
+                return Page();
             }
 
             _context.Turno.Add(TurnoActual);
@@ -106,27 +94,72 @@ namespace Medisysnae.Pages.Turnos
             return RedirectToPage("./Index");
         }
 
-        private void SetState()
+        private bool Validar(List<Turno> turnosDiaProfesional)
         {
-            if (TurnoActual.EstadoString == Turno.Accion.Otorgar.ToString())
-            {
-                TurnoActual.EstadoString = Turno.Estado.Otorgado.ToString();
-            }
+            ModelState.Remove("TurnoActual.Paciente.Id");
 
-            if (TurnoActual.EstadoString == Turno.Accion.Bloquear.ToString())
+            if (TurnoActual.Paciente_ID == 0)
             {
-                TurnoActual.EstadoString = Turno.Estado.Bloqueado.ToString();
+                ModelState.AddModelError(string.Empty, "Para otorgar un turno debe ingresar un paciente");
+                return false;
             }
+        
 
-            if (TurnoActual.EstadoString == Turno.Accion.Cancelar.ToString())
+            if (turnosDiaProfesional.Count > 0)
             {
-                TurnoActual.EstadoString = Turno.Estado.Cancelado.ToString();
-            }
+                foreach (var t in turnosDiaProfesional)
+                {
+                    if (TurnoActual.HoraComienzo > t.HoraComienzo && TurnoActual.HoraComienzo<t.HoraFin)
+                    {
+                        ModelState.AddModelError(string.Empty, $"El turno que ha intentado ingresar se superpone con el turno que comienza a las: {t.HoraComienzo.ToString()}" +
+                            $" y finaliza a las {t.HoraFin.ToString()} horas."); //forma de mostrar error al usuario
+                        return false;
+                    }
 
-            if (TurnoActual.EstadoString == Turno.Accion.Reservar.ToString())
-            {
-                TurnoActual.EstadoString = Turno.Estado.Reservado.ToString();
+                    if (TurnoActual.HoraFin > t.HoraComienzo && TurnoActual.HoraFin<t.HoraFin)
+                    {
+                        ModelState.AddModelError(string.Empty, $"El turno que ha intentado ingresar se superpone con el turno que comienza a las: {t.HoraComienzo.ToString()}" +
+                            $" y finaliza a las {t.HoraFin.ToString()} horas."); //forma de mostrar error al usuario
+                        return false;
+                    }
+
+                    if (TurnoActual.HoraComienzo <= t.HoraComienzo && TurnoActual.HoraFin > t.HoraComienzo)
+                    {
+                        ModelState.AddModelError(string.Empty, $"El turno que ha intentado ingresar se superpone con el turno que comienza a las: {t.HoraComienzo.ToString()}" +
+                            $" y finaliza a las {t.HoraFin.ToString()} horas."); //forma de mostrar error al usuario
+                        return false;
+                    }
+                }        
             }
+            return true;
         }
+
+        private void SetState()
+{
+    if (TurnoActual.EstadoString == null)
+    {
+        TurnoActual.EstadoString = Turno.Estado.Otorgado.ToString();
+    }
+
+    if (TurnoActual.EstadoString == Turno.Accion.Otorgar.ToString())
+    {
+        TurnoActual.EstadoString = Turno.Estado.Otorgado.ToString();
+    }
+
+    if (TurnoActual.EstadoString == Turno.Accion.Bloquear.ToString())
+    {
+        TurnoActual.EstadoString = Turno.Estado.Bloqueado.ToString();
+    }
+
+    if (TurnoActual.EstadoString == Turno.Accion.Cancelar.ToString())
+    {
+        TurnoActual.EstadoString = Turno.Estado.Cancelado.ToString();
+    }
+
+    if (TurnoActual.EstadoString == Turno.Accion.Reservar.ToString())
+    {
+        TurnoActual.EstadoString = Turno.Estado.Reservado.ToString();
+    }
+}
     }
 }

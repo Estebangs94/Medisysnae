@@ -61,7 +61,8 @@ namespace Medisysnae.Pages.Turnos
             IQueryable<Turno> turnoIQ = from t in _context.Turno
                                         select t;
             turnoIQ = turnoIQ.Where(t => t.NombreUsuario == UsuarioActual.NombreUsuario);
-            turnoIQ = turnoIQ.Where(t => t.FechaTurno.Date == date.Date);
+            turnoIQ = turnoIQ.Where(t => t.FechaTurno.Date == date.Date)
+                             .OrderBy(t => t.HoraComienzo);
 
             Turnos = await turnoIQ.ToListAsync();
 
