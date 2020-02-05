@@ -1,0 +1,168 @@
+﻿@page
+@model Medisysnae.Pages.Reportes.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<head>
+    <style>
+        <style>
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: italic;
+            font-weight: 100;
+            src: local('Roboto Thin Italic'), local('Roboto-ThinItalic'), url(https://fonts.gstatic.com/s/roboto/v20/KFOiCnqEu92Fr1Mu51QrEzQdKg.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: italic;
+            font-weight: 300;
+            src: local('Roboto Light Italic'), local('Roboto-LightItalic'), url(https://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51TjASc-CsE.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: italic;
+            font-weight: 400;
+            src: local('Roboto Italic'), local('Roboto-Italic'), url(https://fonts.gstatic.com/s/roboto/v20/KFOkCnqEu92Fr1Mu51xMIzc.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: italic;
+            font-weight: 500;
+            src: local('Roboto Medium Italic'), local('Roboto-MediumItalic'), url(https://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51S7ACc-CsE.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: italic;
+            font-weight: 700;
+            src: local('Roboto Bold Italic'), local('Roboto-BoldItalic'), url(https://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51TzBic-CsE.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: italic;
+            font-weight: 900;
+            src: local('Roboto Black Italic'), local('Roboto-BlackItalic'), url(https://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51TLBCc-CsE.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 100;
+            src: local('Roboto Thin'), local('Roboto-Thin'), url(https://fonts.gstatic.com/s/roboto/v20/KFOkCnqEu92Fr1MmgVxMIzc.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 300;
+            src: local('Roboto Light'), local('Roboto-Light'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmSU5fABc9.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu5mxP.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 500;
+            src: local('Roboto Medium'), local('Roboto-Medium'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmEU9fABc9.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Roboto Bold'), local('Roboto-Bold'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmWUlfABc9.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 900;
+            src: local('Roboto Black'), local('Roboto-Black'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmYUtfABc9.ttf) format('truetype');
+    </style>
+</head>
+
+<h1>Mis Reportes</h1>
+<br />
+<div class="accordion" id="accordionExample">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="background-color:#299be4; border-color:#299be4; width:25%">
+                    <b>Reporte de atenciones</b>
+                </button>
+            </h5>
+        </div>
+
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                <p style="font-size:16px">
+                    El reporte de atenciones le va a permitir ver cuantas atenciones ha realizado a lo largo de cualquier período de tiempo, cuáles son los tratamientos más frecuentes.
+                    <br />
+                    <br />
+                    Para que el reporte sea lo más completo posible, <b>recuerde siempre registrar sus atenciones.</b>
+                </p>
+                <div>
+                    <a class="btn-link link" asp-page="./Atenciones">Ir al reporte</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+                <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="background-color:#299be4; border-color:#299be4; width:25%">
+                    <b>Reporte de pacientes</b>
+                </button>
+            </h5>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+            <div class="card-body">
+                <p style="font-size:16px">
+                    Con este reporte los datos que puede cruzar son todos los relacionados a sus pacientes, desde la cantidad total de pacientes, 
+                    la cantidad de pacientes nuevos que ingresaron en el último mes, cuál es la obra social más frecuente entre sus pacientes (por ejemplo para lanzar algun
+                    descuento con alguna obra social para atraer pacientes).
+                    <br />
+                    <br />
+                    Para que el reporte sea lo más completo posible, <b>recuerde siempre registrar a sus pacientes.</b>
+                </p>
+                <div>
+                    <a class="btn-link link" asp-page="">Ir al reporte</a>
+                </div>
+            </div>
+    </div>
+    <div class="card">
+        <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+                <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" style="background-color:#299be4; border-color:#299be4; width:25%">
+                    <b>Reporte de turnos</b>
+                </button>
+            </h5>
+        </div>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+            <div class="card-body">
+                <p style="font-size:16px">
+                   Por último, el reporte de turnos es de vital importancia ya que con este se pueden obtener estadísticas de los pacientes más frecuentes,
+                   cantidad de turnos otorgados en un período de tiempo, cuál es el lugar de atención más activo.
+                    <br />
+                    Puede filtrar sus turnos por cualquier estado.
+                    <br />
+                    <br />
+                    Para que el reporte sea lo más completo posible, <b>recuerde siempre registrar sus turnos.</b>
+                </p>
+                <div>
+                    <a class="btn-link link" asp-page="">Ir al reporte</a>
+                </div>
+            </div>
+    </div>
+</div>

@@ -1,0 +1,148 @@
+﻿@page
+@model Medisysnae.Pages.Reportes.AtencionesModel
+@{
+    ViewData["Title"] = "Atenciones";
+}
+
+
+<head>
+    <style>
+        <style >
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: italic;
+            font-weight: 100;
+            src: local('Roboto Thin Italic'), local('Roboto-ThinItalic'), url(https://fonts.gstatic.com/s/roboto/v20/KFOiCnqEu92Fr1Mu51QrEzQdKg.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: italic;
+            font-weight: 300;
+            src: local('Roboto Light Italic'), local('Roboto-LightItalic'), url(https://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51TjASc-CsE.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: italic;
+            font-weight: 400;
+            src: local('Roboto Italic'), local('Roboto-Italic'), url(https://fonts.gstatic.com/s/roboto/v20/KFOkCnqEu92Fr1Mu51xMIzc.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: italic;
+            font-weight: 500;
+            src: local('Roboto Medium Italic'), local('Roboto-MediumItalic'), url(https://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51S7ACc-CsE.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: italic;
+            font-weight: 700;
+            src: local('Roboto Bold Italic'), local('Roboto-BoldItalic'), url(https://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51TzBic-CsE.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: italic;
+            font-weight: 900;
+            src: local('Roboto Black Italic'), local('Roboto-BlackItalic'), url(https://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51TLBCc-CsE.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 100;
+            src: local('Roboto Thin'), local('Roboto-Thin'), url(https://fonts.gstatic.com/s/roboto/v20/KFOkCnqEu92Fr1MmgVxMIzc.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 300;
+            src: local('Roboto Light'), local('Roboto-Light'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmSU5fABc9.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu5mxP.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 500;
+            src: local('Roboto Medium'), local('Roboto-Medium'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmEU9fABc9.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Roboto Bold'), local('Roboto-Bold'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmWUlfABc9.ttf) format('truetype');
+        }
+
+        @@font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 900;
+            src: local('Roboto Black'), local('Roboto-Black'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmYUtfABc9.ttf) format('truetype');
+    </style>
+</head>
+
+
+
+<h3>Reporte de Atenciones</h3>
+
+<form method="post">
+   
+    <div class="row">
+        <div class="col-md-6">
+            <table>
+                <tr>
+                    <td>
+                        Fecha desde:
+                    </td>
+                    <td>
+                        <input asp-for="@Model.Reportes.FechaDesde" type="date" />
+                    </td>
+                    <td>
+                        Fecha hasta:
+                    </td>
+                    <td >
+                        <input asp-for="@Model.Reportes.FechaHasta" type="date" />
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <div>
+                Tratamiento:
+
+                <select asp-for="Reportes.TratamientoId" class="form-control" asp-items="@Model.TratamientosList">
+                    <option value="">Seleccionar</option>
+                </select>
+            </div>
+            <br />
+            <div>
+                Obra social
+
+                <select asp-for="Reportes.ObraSocialId" class="form-control" asp-items="@Model.ObraSocialesList">
+                    <option value="">Seleccionar</option>
+                </select>
+            </div>
+            <br />
+            <div>
+                Paciente:
+
+                <select asp-for="Reportes.PacienteId" class="form-control" asp-items="@Model.PacientesList">
+                    <option value="">Seleccionar</option>
+                </select>
+            </div>
+            <br />
+            <input type="submit" class="btn btn-primary align-self-end" value="Buscar"/>
+        </div>
+    </div>
+</form>
