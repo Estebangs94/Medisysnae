@@ -15,7 +15,8 @@ namespace Medisysnae.Pages.Reportes
     {
         [BindProperty]
         public Profesional UsuarioActual { get; set; }
-
+        [BindProperty]
+        public List<Atencion> Atenciones { get; private set; }
         [BindProperty]
         public Reporte Reportes { get; set; }
 
@@ -38,21 +39,64 @@ namespace Medisysnae.Pages.Reportes
         public async Task<IActionResult> OnGetAsync()
         {
             string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
-            UsuarioActual = _context.Profesional.FirstOrDefault(m => m.NombreUsuario == NombreUsuarioActual);
+            UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
 
-            CargarTratamientos();
-            CargarObraSociales();
-            CargarPacientes();
+            Atenciones = null;
+
+            CargarCombos();
 
             return Page();
         }
+
+        
 
         public async Task<IActionResult> OnPostAsync()
         {
             string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
             UsuarioActual = _context.Profesional.FirstOrDefault(m => m.NombreUsuario == NombreUsuarioActual);
 
+            Atenciones = await _context.Atencion.Include(a => a.Paciente)
+                         .Include(a => a.Medico)
+                         .Where(a => a.Medico.NombreUsuario == UsuarioActual.NombreUsuario)
+                         .ToListAsync();
+
+            foreach (Atencion ate in Atenciones)
+            {
+                ate.Paciente.Obrasocial = await _context.Obrasocial.FirstOrDefaultAsync(m => m.ID == ate.Paciente.Obrasocial_ID);
+            }
+
+            Filtrar();
+
+            CargarCombos();
             return Page();
+        }
+
+        private void Filtrar()
+        {
+            if (Reportes.PacienteId != 0)
+            {
+                Atenciones = Atenciones.Where(a => a.Paciente.ID == Reportes.PacienteId).ToList();
+            }
+
+            if (Reportes.ObraSocialId != 0)
+            {
+                Atenciones = Atenciones.Where(a => a.Paciente.Obrasocial_ID == Reportes.ObraSocialId).ToList();
+            }
+
+            if (Reportes.TratamientoId != 0)
+            {
+                Atenciones = Atenciones.Where(a => a.Tratamiento_ID == Reportes.TratamientoId).ToList();
+            }
+
+            if (Reportes.FechaDesde > new DateTime(1901,01,01))
+            {
+                Atenciones = Atenciones.Where(a => a.FechaHora > Reportes.FechaDesde).ToList();
+            }
+
+            if(Reportes.FechaDesde > new DateTime(1901,01,01))
+            {
+                Atenciones = Atenciones.Where(a => a.FechaHora < Reportes.FechaHasta).ToList();
+            }
         }
 
         private void CargarTratamientos()
@@ -75,6 +119,13 @@ namespace Medisysnae.Pages.Reportes
                 .Where(p => p.Medico.NombreUsuario == UsuarioActual.NombreUsuario)
                 .ToList();
             PacientesList = new SelectList(Pacientes, "ID", "ApellidoNombre", null);
+        }
+
+        private void CargarCombos()
+        {
+            CargarTratamientos();
+            CargarObraSociales();
+            CargarPacientes();
         }
     }
 }

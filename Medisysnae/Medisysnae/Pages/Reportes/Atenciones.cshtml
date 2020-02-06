@@ -6,8 +6,13 @@
 
 
 <head>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
     <style>
-        <style >
         @@font-face {
             font-family: 'Roboto';
             font-style: italic;
@@ -98,7 +103,7 @@
 <h3>Reporte de Atenciones</h3>
 
 <form method="post">
-   
+
     <div class="row">
         <div class="col-md-6">
             <table>
@@ -112,7 +117,7 @@
                     <td>
                         Fecha hasta:
                     </td>
-                    <td >
+                    <td>
                         <input asp-for="@Model.Reportes.FechaHasta" type="date" />
                     </td>
                 </tr>
@@ -122,7 +127,7 @@
                 Tratamiento:
 
                 <select asp-for="Reportes.TratamientoId" class="form-control" asp-items="@Model.TratamientosList">
-                    <option value="">Seleccionar</option>
+                    <option value="">Todos</option>
                 </select>
             </div>
             <br />
@@ -130,7 +135,7 @@
                 Obra social
 
                 <select asp-for="Reportes.ObraSocialId" class="form-control" asp-items="@Model.ObraSocialesList">
-                    <option value="">Seleccionar</option>
+                    <option value="">Todas</option>
                 </select>
             </div>
             <br />
@@ -138,11 +143,80 @@
                 Paciente:
 
                 <select asp-for="Reportes.PacienteId" class="form-control" asp-items="@Model.PacientesList">
-                    <option value="">Seleccionar</option>
+                    <option value="">Todos</option>
                 </select>
             </div>
             <br />
-            <input type="submit" class="btn btn-primary align-self-end" value="Buscar"/>
+            <input type="submit" class="btn btn-primary align-self-end" value="Buscar" />
         </div>
     </div>
 </form>
+
+@if (Model.Atenciones != null)
+{
+    if (Model.Atenciones.Count > 0)
+    {
+        <br />
+        <label>
+            <b>Cantidad de atenciones: @Model.Atenciones.Count.ToString()</b>
+        </label>
+
+        <table class="table table-striped table-hover table-responsive-sm table-responsive-md table-responsive-lg">
+            <thead class="text-white" style="font-size:medium; background-color:#299be4;">
+                <tr>
+                    <th>
+                        Fecha atencion
+                    </th>
+                    <th>
+                        Paciente
+                    </th>
+                    <th>
+                        Obra social
+                    </th>
+                    <th>
+                        Tratamiento
+                    </th>
+                    <th>
+                        Titulo
+                    </th>
+                    <th>
+                        Comentario
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Atenciones)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaHora)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Paciente.ApellidoNombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Paciente.Obrasocial.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tratamiento.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Titulo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Comentario)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+    else
+    {
+        <br />
+        <label>
+            <b>Cantidad de atenciones: 0</b>
+        </label>
+    }
+}
