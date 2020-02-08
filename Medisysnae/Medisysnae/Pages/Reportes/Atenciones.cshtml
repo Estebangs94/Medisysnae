@@ -13,6 +13,10 @@
         });
     </script>
     <style>
+        .disabled {
+            pointer-events: none;
+        }
+
         @@font-face {
             font-family: 'Roboto';
             font-style: italic;
@@ -147,76 +151,86 @@
                 </select>
             </div>
             <br />
-            <input type="submit" class="btn btn-primary align-self-end" value="Buscar" />
+            <input type="submit" class="btn btn-primary align-self-end" value="Buscar" asp-page-handler="Generar" />
         </div>
     </div>
-</form>
 
-@if (Model.Atenciones != null)
-{
-    if (Model.Atenciones.Count > 0)
+
+    @if (Model.Atenciones != null)
     {
-        <br />
-        <label>
-            <b>Cantidad de atenciones: @Model.Atenciones.Count.ToString()</b>
-        </label>
+        if (Model.Atenciones.Count > 0)
+        {
+            <br />
+            <label>
+                <b>Cantidad de atenciones: @Model.Atenciones.Count.ToString()</b>
+            </label>
 
-        <table class="table table-striped table-hover table-responsive-sm table-responsive-md table-responsive-lg">
-            <thead class="text-white" style="font-size:medium; background-color:#299be4;">
-                <tr>
-                    <th>
-                        Fecha atencion
-                    </th>
-                    <th>
-                        Paciente
-                    </th>
-                    <th>
-                        Obra social
-                    </th>
-                    <th>
-                        Tratamiento
-                    </th>
-                    <th>
-                        Titulo
-                    </th>
-                    <th>
-                        Comentario
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Atenciones)
-                {
+            <table class="table table-striped table-hover table-responsive-sm table-responsive-md table-responsive-lg">
+                <thead class="text-white" style="font-size:medium; background-color:#299be4;">
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FechaHora)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Paciente.ApellidoNombre)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Paciente.Obrasocial.Nombre)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Tratamiento.Nombre)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Titulo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Comentario)
-                        </td>
+                        <th>
+                            Fecha atencion
+                        </th>
+                        <th>
+                            Paciente
+                        </th>
+                        <th>
+                            Obra social
+                        </th>
+                        <th>
+                            Tratamiento
+                        </th>
+                        <th>
+                            Titulo
+                        </th>
+                        <th>
+                            Comentario
+                        </th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.AtencionesPaginadas)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FechaHora)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Paciente.ApellidoNombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Paciente.Obrasocial.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Tratamiento.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Titulo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Comentario)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            {
+                var prevDisabled = !Model.AtencionesPaginadas.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.AtencionesPaginadas.HasNextPage ? "disabled" : "";
 
+                <input type="submit" class="btn btn-outline-secondary @prevDisabled" value="Anterior" asp-page-handler="GenerarPrev" />
+                <input type="hidden" name="pageIndexPrev" value="@(Model.AtencionesPaginadas.PageIndex - 1)" />
+
+                <input type="submit" class="btn btn-outline-secondary @nextDisabled" value="Siguiente" asp-page-handler="GenerarNext" />
+                <input type="hidden" name="pageIndexNext" value="@(Model.AtencionesPaginadas.PageIndex + 1)" />
+            }
+        }
+        else
+        {
+            <br />
+            <label>
+                <b>Cantidad de atenciones: 0</b>
+            </label>
+        }
     }
-    else
-    {
-        <br />
-        <label>
-            <b>Cantidad de atenciones: 0</b>
-        </label>
-    }
-}
+</form>

@@ -17,6 +17,8 @@ namespace Medisysnae.Pages.Reportes
         public Profesional UsuarioActual { get; set; }
         [BindProperty]
         public List<Atencion> Atenciones { get; private set; }
+        public PaginatedList<Atencion> AtencionesPaginadas { get; set; }
+
         [BindProperty]
         public Reporte Reportes { get; set; }
 
@@ -28,6 +30,8 @@ namespace Medisysnae.Pages.Reportes
 
         public IList<Tratamiento> TratamientosTodos { get; set; }
         public SelectList TratamientosList { get; set; }
+
+        private IQueryable<Atencion> _atencionesIQ { get; set; }
 
         private readonly Data.MedisysnaeContext _context;
 
@@ -50,7 +54,7 @@ namespace Medisysnae.Pages.Reportes
 
         
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostGenerar(int? pageIndex)
         {
             string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
             UsuarioActual = _context.Profesional.FirstOrDefault(m => m.NombreUsuario == NombreUsuarioActual);
@@ -66,6 +70,69 @@ namespace Medisysnae.Pages.Reportes
             }
 
             Filtrar();
+
+            int pageSize = 10;
+
+            _atencionesIQ = Atenciones.AsQueryable();
+
+            AtencionesPaginadas =  PaginatedList<Atencion>.CreateSync(
+                _atencionesIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
+
+            CargarCombos();
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostGenerarNext(int? pageIndexNext)
+        {
+            string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
+            UsuarioActual = _context.Profesional.FirstOrDefault(m => m.NombreUsuario == NombreUsuarioActual);
+
+            Atenciones = await _context.Atencion.Include(a => a.Paciente)
+                         .Include(a => a.Medico)
+                         .Where(a => a.Medico.NombreUsuario == UsuarioActual.NombreUsuario)
+                         .ToListAsync();
+
+            foreach (Atencion ate in Atenciones)
+            {
+                ate.Paciente.Obrasocial = await _context.Obrasocial.FirstOrDefaultAsync(m => m.ID == ate.Paciente.Obrasocial_ID);
+            }
+
+            Filtrar();
+
+            int pageSize = 10;
+
+            _atencionesIQ = Atenciones.AsQueryable();
+
+            AtencionesPaginadas = PaginatedList<Atencion>.CreateSync(
+                _atencionesIQ.AsNoTracking(), pageIndexNext ?? 1, pageSize);
+
+            CargarCombos();
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostGenerarPrev(int? pageIndexPrev)
+        {
+            string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
+            UsuarioActual = _context.Profesional.FirstOrDefault(m => m.NombreUsuario == NombreUsuarioActual);
+
+            Atenciones = await _context.Atencion.Include(a => a.Paciente)
+                         .Include(a => a.Medico)
+                         .Where(a => a.Medico.NombreUsuario == UsuarioActual.NombreUsuario)
+                         .ToListAsync();
+
+            foreach (Atencion ate in Atenciones)
+            {
+                ate.Paciente.Obrasocial = await _context.Obrasocial.FirstOrDefaultAsync(m => m.ID == ate.Paciente.Obrasocial_ID);
+            }
+
+            Filtrar();
+
+            int pageSize = 10;
+
+            _atencionesIQ = Atenciones.AsQueryable();
+
+            AtencionesPaginadas = PaginatedList<Atencion>.CreateSync(
+                _atencionesIQ.AsNoTracking(), pageIndexPrev ?? 1, pageSize);
 
             CargarCombos();
             return Page();
