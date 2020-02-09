@@ -1,4 +1,4 @@
-﻿insert into Antecedente VALUES (Descripcion, EstaActivo, EsListaOpciones, Orden, EsTextArea, EsTitulo)
+﻿
 insert into Antecedente VALUES ('PROBLEMA ACTUAL', 1,0 ,0,0,1)
 insert into Antecedente VALUES ('Motivo de consulta', 1,0 ,1,1,0)
 insert into Antecedente VALUES ('HÁBITOS', 1,0 ,2,0,1)

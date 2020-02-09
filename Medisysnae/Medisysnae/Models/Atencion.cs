@@ -24,10 +24,10 @@ namespace Medisysnae.Models
 
         public string Diagnostico { get; set; }
 
-        //Resumen del día de la HC
-        public string Titulo { get; set; }
+        
+        public string Titulo { get; set; } //es el campo motivo de consulta, signos y sintomas
         //Campo libre para el profesional
-        public string Descripcion { get; set; } //es el campo indicaciones
+        public string Descripcion { get; set; } //es el campo observaciones
 
         //Si es true no se muesta en la HC
         public bool EstaEliminada { get; set; } 

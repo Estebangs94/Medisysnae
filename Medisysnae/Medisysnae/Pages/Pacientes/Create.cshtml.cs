@@ -52,6 +52,8 @@ namespace Medisysnae.Pages.Pacientes
             string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
             UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
 
+            Paciente.FechaCreacion = DateTime.Now.Date;
+
             Paciente.Obrasocial_ID = Paciente.Obrasocial.ID;
             Paciente.Obrasocial = null;
 

@@ -23,9 +23,10 @@ namespace Medisysnae.Pages.Turnos
         [BindProperty]
         public DateTime DiaActual { get; set; }
 
-
         [BindProperty]
         public List<Turno> Turnos { get; set; }
+
+        private Turno TurnoToUpdate { get; set; }
 
 
         public IndexModel(Medisysnae.Data.MedisysnaeContext context)
@@ -43,6 +44,30 @@ namespace Medisysnae.Pages.Turnos
         {          
             DiaActual = date;
             return await CargarTurnos(DiaActual);
+        }
+
+        public async Task<IActionResult> OnPostAtender(int id)
+        {
+            TurnoToUpdate = await _context.Turno.SingleOrDefaultAsync(t => t.ID == id);
+            TurnoToUpdate.EstadoString = Turno.Estado.Atendido.ToString();
+            _context.Attach(TurnoToUpdate).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            await CargarTurnos(TurnoToUpdate.FechaTurno.Date);
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostCancelar(int id)
+        {
+            TurnoToUpdate = await _context.Turno.SingleOrDefaultAsync(t => t.ID == id);
+            TurnoToUpdate.EstadoString = Turno.Estado.Cancelado.ToString();
+            _context.Attach(TurnoToUpdate).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            await CargarTurnos(TurnoToUpdate.FechaTurno.Date);
+
+            return Page();
         }
 
         private async Task<IActionResult> CargarTurnos(DateTime date)

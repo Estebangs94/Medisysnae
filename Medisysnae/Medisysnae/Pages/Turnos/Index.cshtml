@@ -820,91 +820,126 @@
         <input asp-for="@Model.DiaActual" onchange="myFunction()" id="test" type="date" />
     </div>
     <input type="hidden" name="date" id="dateInput" />
-</form>
 
 
-<br />
-<div class="form-group">
-    <a asp-page="./Create" class="btn btn-primary" >Otorgar turno</a>
-</div>
-<br />
 
-<table id="table" class="table table-responsive-md table-responsive-md table-hover table-mc-light-blue table-bordered" style="">
-    <thead class="text-white" style="font-size:larger; background-color:#299be4;">
-        <tr>
-            <th>
-                <span style="color:white">
-                    Inicio
-                </span>
-            </th>
-            <th>
-                <span style="color:white">Fin</span>
-            </th>
-            <th>
-                <span style="color:white">Paciente</span>
-            </th>
-            <th>
-                <span style="color:white">Lugar</span>
-            </th>
-            <th>
-                <span style="color:white">
-                    Comentario
-                </span>
-            </th>
-            <th>
-                <span style="color:white">
-                    Estado
-                </span>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Turnos)
-        {
-            if (item.EstadoString == "Bloqueado")
+    <br />
+    <div class="form-group">
+        <a asp-page="./Create" class="btn btn-primary">Otorgar turno</a>
+    </div>
+    <br />
+
+    <table id="table" class="table table-responsive-md table-responsive-md table-hover table-mc-light-blue table-bordered" style="">
+        <thead class="text-white" style="font-size:larger; background-color:#299be4;">
+            <tr>
+                <th>
+                    <span style="color:white">
+                        Inicio
+                    </span>
+                </th>
+                <th>
+                    <span style="color:white">Fin</span>
+                </th>
+                <th>
+                    <span style="color:white">Paciente</span>
+                </th>
+                <th>
+                    <span style="color:white">Lugar</span>
+                </th>
+                <th>
+                    <span style="color:white">
+                        Comentario
+                    </span>
+                </th>
+                <th>
+                    <span style="color:white">
+                        Estado
+                    </span>
+                </th>
+                <th>
+                    <span style="color:white">
+                        Acción
+                    </span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Turnos)
             {
-                <tr style="background-color:gray" >
-                    <td style="background-color:gray">
-                        <span >
+                if (item.EstadoString == "Bloqueado")
+                {
+                    <tr style="background-color:gray">
+                        <td style="background-color:gray">
+                            <span>
+                                @Html.DisplayFor(modelItem => item.HoraComienzo)
+                            </span>
+                        </td>
+                        <td style="background-color:gray">
+                            @Html.DisplayFor(modelItem => item.HoraFin)
+                        </td>
+                        <td style="background-color:gray"></td>
+                        <td style="background-color:gray"></td>
+                        <td style="background-color:gray"></td>
+                        <td style="background-color:gray">Bloqueado</td>
+                        <td style="background-color:gray"></td>
+                    </tr>
+                }
+                else if (item.EstadoString == "Atendido" || item.EstadoString == "Cancelado")
+                {
+                    <tr>
+                        <td>
                             @Html.DisplayFor(modelItem => item.HoraComienzo)
-                        </span>
-                    </td>
-                    <td style="background-color:gray">
-                        @Html.DisplayFor(modelItem => item.HoraFin)
-                    </td>
-                    <td style="background-color:gray"></td>
-                    <td style="background-color:gray"></td>
-                    <td style="background-color:gray"></td>
-                    <td style="background-color:gray">Bloqueado</td>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HoraFin)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Paciente.ApellidoNombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LugarAtencion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Comentario)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EstadoString)
+                        </td>
+                        <td></td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HoraComienzo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HoraFin)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Paciente.ApellidoNombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LugarAtencion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Comentario)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EstadoString)
+                        </td>
+                        <td>
+                            <input type="submit" class="btn btn-success" value="Atender" asp-page-handler="Atender" />
+                            <input type="hidden" name="id" value="@item.ID" />
 
-                </tr>
+                            <input type="submit" class="btn btn-danger" value="Cancelar" asp-page-handler="Cancelar" />
+                            <input type="hidden" name="id" value="@item.ID" />
+                        </td>
+                    </tr>
+                }
             }
-            else
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HoraComienzo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HoraFin)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Paciente.ApellidoNombre)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LugarAtencion)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Comentario)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EstadoString)
-                    </td>
+        </tbody>
+    </table>
 
-                </tr>
-            }
-        }
-    </tbody>
-</table>
-
-
+</form>

@@ -32,6 +32,7 @@ namespace Medisysnae.Models
         [Display(Name ="Nro afiliado")]
         public string NroAfiliado { get; set; }
         public string Comentario { get; set; }
+        public DateTime? FechaCreacion { get; set; }
 
         [RegularExpression("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$", ErrorMessage = "El mail ingresado es inválido")]
         public string Mail { get; set; }

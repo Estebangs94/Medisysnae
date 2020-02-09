@@ -34,6 +34,7 @@ namespace Medisysnae.Pages.Reportes
         private IQueryable<Atencion> _atencionesIQ { get; set; }
 
         private readonly Data.MedisysnaeContext _context;
+        private const int pageSize = 7;
 
         public AtencionesModel(Data.MedisysnaeContext context)
         {
@@ -42,78 +43,34 @@ namespace Medisysnae.Pages.Reportes
 
         public async Task<IActionResult> OnGetAsync()
         {
-            string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
-            UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
+            await BuscarUsuario();
 
             Atenciones = null;
 
             CargarCombos();
 
             return Page();
-        }
-
-        
+        }      
 
         public async Task<IActionResult> OnPostGenerar(int? pageIndex)
         {
-            string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
-            UsuarioActual = _context.Profesional.FirstOrDefault(m => m.NombreUsuario == NombreUsuarioActual);
-
-            Atenciones = await _context.Atencion.Include(a => a.Paciente)
-                         .Include(a => a.Medico)
-                         .Where(a => a.Medico.NombreUsuario == UsuarioActual.NombreUsuario)
-                         .ToListAsync();
-
-            foreach (Atencion ate in Atenciones)
-            {
-                ate.Paciente.Obrasocial = await _context.Obrasocial.FirstOrDefaultAsync(m => m.ID == ate.Paciente.Obrasocial_ID);
-            }
-
-            Filtrar();
-
-            int pageSize = 10;
-
-            _atencionesIQ = Atenciones.AsQueryable();
-
-            AtencionesPaginadas =  PaginatedList<Atencion>.CreateSync(
-                _atencionesIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
-
-            CargarCombos();
-            return Page();
+            return await GenerarReporte(pageIndex);
         }
+
 
         public async Task<IActionResult> OnPostGenerarNext(int? pageIndexNext)
         {
-            string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
-            UsuarioActual = _context.Profesional.FirstOrDefault(m => m.NombreUsuario == NombreUsuarioActual);
-
-            Atenciones = await _context.Atencion.Include(a => a.Paciente)
-                         .Include(a => a.Medico)
-                         .Where(a => a.Medico.NombreUsuario == UsuarioActual.NombreUsuario)
-                         .ToListAsync();
-
-            foreach (Atencion ate in Atenciones)
-            {
-                ate.Paciente.Obrasocial = await _context.Obrasocial.FirstOrDefaultAsync(m => m.ID == ate.Paciente.Obrasocial_ID);
-            }
-
-            Filtrar();
-
-            int pageSize = 10;
-
-            _atencionesIQ = Atenciones.AsQueryable();
-
-            AtencionesPaginadas = PaginatedList<Atencion>.CreateSync(
-                _atencionesIQ.AsNoTracking(), pageIndexNext ?? 1, pageSize);
-
-            CargarCombos();
-            return Page();
+            return await GenerarReporte(pageIndexNext);
         }
 
         public async Task<IActionResult> OnPostGenerarPrev(int? pageIndexPrev)
         {
-            string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
-            UsuarioActual = _context.Profesional.FirstOrDefault(m => m.NombreUsuario == NombreUsuarioActual);
+            return await GenerarReporte(pageIndexPrev);
+        }
+
+        private async Task<IActionResult> GenerarReporte(int? pageIndex)
+        {
+            await BuscarUsuario();
 
             Atenciones = await _context.Atencion.Include(a => a.Paciente)
                          .Include(a => a.Medico)
@@ -127,12 +84,10 @@ namespace Medisysnae.Pages.Reportes
 
             Filtrar();
 
-            int pageSize = 10;
-
             _atencionesIQ = Atenciones.AsQueryable();
 
             AtencionesPaginadas = PaginatedList<Atencion>.CreateSync(
-                _atencionesIQ.AsNoTracking(), pageIndexPrev ?? 1, pageSize);
+                _atencionesIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
 
             CargarCombos();
             return Page();
@@ -155,15 +110,17 @@ namespace Medisysnae.Pages.Reportes
                 Atenciones = Atenciones.Where(a => a.Tratamiento_ID == Reportes.TratamientoId).ToList();
             }
 
-            if (Reportes.FechaDesde > new DateTime(1901,01,01))
+            if (Reportes.FechaDesde > new DateTime(1901, 01, 01))
             {
-                Atenciones = Atenciones.Where(a => a.FechaHora > Reportes.FechaDesde).ToList();
+                Atenciones = Atenciones.Where(a => a.FechaHora >= Reportes.FechaDesde).ToList();
             }
 
-            if(Reportes.FechaDesde > new DateTime(1901,01,01))
+            if (Reportes.FechaHasta > new DateTime(1901, 01, 01))
             {
-                Atenciones = Atenciones.Where(a => a.FechaHora < Reportes.FechaHasta).ToList();
+                Atenciones = Atenciones.Where(a => a.FechaHora <= Reportes.FechaHasta).ToList();
             }
+
+            Atenciones = Atenciones.OrderBy(a => a.FechaHora).ToList();
         }
 
         private void CargarTratamientos()
@@ -193,6 +150,12 @@ namespace Medisysnae.Pages.Reportes
             CargarTratamientos();
             CargarObraSociales();
             CargarPacientes();
+        }
+
+        private async Task BuscarUsuario()
+        {
+            string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
+            UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
         }
     }
 }
