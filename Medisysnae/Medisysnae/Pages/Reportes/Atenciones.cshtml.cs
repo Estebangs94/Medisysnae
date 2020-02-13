@@ -77,6 +77,8 @@ namespace Medisysnae.Pages.Reportes
                          .Where(a => a.Medico.NombreUsuario == UsuarioActual.NombreUsuario)
                          .ToListAsync();
 
+
+
             foreach (Atencion ate in Atenciones)
             {
                 ate.Paciente.Obrasocial = await _context.Obrasocial.FirstOrDefaultAsync(m => m.ID == ate.Paciente.Obrasocial_ID);

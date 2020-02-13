@@ -36,10 +36,11 @@ namespace Medisysnae.Models
         public string DNI { get; set; }
 
         [Required(ErrorMessage = "El campo Telefono es obligatorio")]
-        public Int64 Telefono { get; set; } //Tiene que ser int64 sino no le dan los bits para representar el nro
+        [DataType(DataType.Text, ErrorMessage = "El valor ingresado no puede ser un caracter")]
+        public Int64? Telefono { get; set; } //Tiene que ser int64 sino no le dan los bits para representar el nro
 
         public IList<Especialidad> Especialidades { get; set; }
-
+       
         [Display(Name ="Rol")]
         public string Rol { get
             {

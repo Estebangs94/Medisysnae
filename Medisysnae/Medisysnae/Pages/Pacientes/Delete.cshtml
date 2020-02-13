@@ -7,10 +7,10 @@
 
 <h1>Eliminar</h1>
 
-<h3>¿Está seguro que desea borrar permanentemente a: @Model.Paciente.ApellidoNombre?</h3>
+<h3>¿Está seguro que desea borrar al paciente: @Model.Paciente.ApellidoNombre?</h3>
 <div>
     <hr />
-    <dl class="row">
+    <dl class="row" style="font-size:20px">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Paciente.Nombre)
         </dt>
@@ -42,6 +42,12 @@
             @Html.DisplayFor(model => model.Paciente.Telefono)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Paciente.Obrasocial)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Paciente.Obrasocial.Nombre)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Paciente.NroAfiliado)
         </dt>
         <dd class="col-sm-10">
@@ -59,7 +65,7 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Paciente.Mail)
         </dd>
-        
+
     </dl>
     
     <form method="post">

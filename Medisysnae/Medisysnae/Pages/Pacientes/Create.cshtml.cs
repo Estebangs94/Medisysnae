@@ -62,6 +62,7 @@ namespace Medisysnae.Pages.Pacientes
                 .ToListAsync();
 
             Paciente.Medico = UsuarioActual;
+            Paciente.EstaActivo = true;
 
             _context.Paciente.Add(Paciente);
 

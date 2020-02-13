@@ -35,6 +35,9 @@ namespace Medisysnae.Pages.Pacientes
             {
                 return NotFound();
             }
+
+            await cargarOSPaciente();
+
             return Page();
         }
 
@@ -49,11 +52,18 @@ namespace Medisysnae.Pages.Pacientes
 
             if (Paciente != null)
             {
-                _context.Paciente.Remove(Paciente);
+                Paciente.EstaActivo = false;
+                _context.Attach(Paciente).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
+
             }
 
             return RedirectToPage("./Index");
+        }
+
+        private async Task cargarOSPaciente()
+        {
+            Paciente.Obrasocial = await _context.Obrasocial.FirstOrDefaultAsync(m => m.ID == Paciente.Obrasocial_ID);
         }
     }
 }

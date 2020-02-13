@@ -14,17 +14,17 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Paciente.Nombre" class="control-label"></label>
+                <label class="control-label">Nombre*</label>
                 <input asp-for="Paciente.Nombre" class="form-control" />
                 <span asp-validation-for="Paciente.Nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Paciente.Apellido" class="control-label"></label>
+                <label class="control-label">Apellido*</label>
                 <input asp-for="Paciente.Apellido" class="form-control" />
                 <span asp-validation-for="Paciente.Apellido" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Paciente.Dni" class="control-label"></label>
+                <label  class="control-label">D.N.I*</label>
                 <input asp-for="Paciente.Dni" class="form-control" />
                 <span asp-validation-for="Paciente.Dni" class="text-danger"></span>
             </div>
@@ -34,12 +34,12 @@
                 <span asp-validation-for="Paciente.Domicilio" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Paciente.Telefono" class="control-label"></label>
+                <label class="control-label">Telefono*</label>
                 <input asp-for="Paciente.Telefono" class="form-control" />
                 <span asp-validation-for="Paciente.Telefono" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Paciente.Obrasocial" class="control-label"></label>
+                <label class="control-label">Obra social*</label>
                 <select asp-for="Paciente.Obrasocial.ID" class="form-control" asp-items="@Model.ObraSocialList">
                     <option value="">Seleccionar</option>
                 </select>
@@ -60,10 +60,13 @@
                 <input asp-for="Paciente.Mail" class="form-control" />
                 <span asp-validation-for="Paciente.Mail" class="text-danger"></span>
             </div>
-            
+            <div class="form-group">
+                <label class="control-label">Los campos marcados con * son obligatorios</label>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" />
             </div>
+
         </form>
     </div>
 </div>
@@ -71,6 +74,7 @@
 <div>
     <a asp-page="Index">Volver a la lista</a>
 </div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

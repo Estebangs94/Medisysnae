@@ -34,7 +34,14 @@ namespace Medisysnae.Pages.Pacientes
             {
                 return NotFound();
             }
+
+            await cargarOSPaciente();
             return Page();
+        }
+
+        private async Task cargarOSPaciente()
+        {
+            Paciente.Obrasocial = await _context.Obrasocial.FirstOrDefaultAsync(m => m.ID == Paciente.Obrasocial_ID);
         }
     }
 }

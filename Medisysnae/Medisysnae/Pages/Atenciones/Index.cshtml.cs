@@ -48,6 +48,8 @@ namespace Medisysnae.Pages.Atenciones
             IQueryable<Paciente> pacienteIQ = from p in _context.Paciente
                                               select p;
 
+            pacienteIQ = pacienteIQ.Where(p => p.EstaActivo == true);
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 pacienteIQ = pacienteIQ.Where(p => p.Apellido.Contains(searchString) || p.Nombre.Contains(searchString));

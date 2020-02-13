@@ -60,7 +60,7 @@ namespace Medisysnae.Pages.Turnos
         {
             Pacientes = _context.Paciente.OrderBy(i => i.ApellidoNombre)
                 .Include(m => m.Medico)
-                .Where(p => p.Medico.NombreUsuario == UsuarioActual.NombreUsuario)
+                .Where(p => p.Medico.NombreUsuario == UsuarioActual.NombreUsuario && p.EstaActivo == true)
                 .ToList();
             PacientesList = new SelectList(Pacientes, "ID", "ApellidoNombre", null);
 

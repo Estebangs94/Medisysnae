@@ -37,6 +37,13 @@ namespace Medisysnae.Pages.Profesionales
             Profesional.EstaHabilitado = true;
             Profesional.EsAdministrador = false;
 
+            var Usuario = await _context.Profesional.FindAsync(Profesional.NombreUsuario);
+
+            if(Usuario != null)
+            {
+                
+            }
+
             _context.Profesional.Add(Profesional);
             await _context.SaveChangesAsync();
 

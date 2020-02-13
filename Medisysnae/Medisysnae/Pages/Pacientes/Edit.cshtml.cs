@@ -20,6 +20,9 @@ namespace Medisysnae.Pages.Pacientes
             _context = context;
         }
 
+        public SelectList ObraSocialList { get; set; }
+        public IList<Obrasocial> ObrasSociales { get; set; }
+
         [BindProperty]
         public Paciente Paciente { get; set; }
 
@@ -36,6 +39,10 @@ namespace Medisysnae.Pages.Pacientes
             {
                 return NotFound();
             }
+
+            await cargarOSPaciente();
+            CargarOS();
+
             return Page();
         }
 
@@ -70,6 +77,18 @@ namespace Medisysnae.Pages.Pacientes
         private bool PacienteExists(int id)
         {
             return _context.Paciente.Any(e => e.ID == id);
+        }
+
+        private async Task cargarOSPaciente()
+        {
+            Paciente.Obrasocial = await _context.Obrasocial.FirstOrDefaultAsync(m => m.ID == Paciente.Obrasocial_ID);
+        }
+
+        private void CargarOS()
+        {
+            ObrasSociales = _context.Obrasocial.OrderBy(i => i.Nombre)
+                .ToList();
+            ObraSocialList = new SelectList(ObrasSociales, "ID", "Nombre", Paciente.Obrasocial_ID);
         }
     }
 }

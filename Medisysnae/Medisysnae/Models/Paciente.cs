@@ -13,9 +13,12 @@ namespace Medisysnae.Models
         public int ID { get; set; }
         //Medico asociado
         public Profesional Medico { get; set; }
+        [Required(ErrorMessage = "El campo nombre es obligatorio")]
         public string Nombre { get; set; }
+        [Required(ErrorMessage = "El campo apellido es obligatorio")]
         public string Apellido { get; set; }
         [Display(Name ="DNI")]
+        [Required(ErrorMessage = "El campo apellido es obligatorio")]
         public int Dni { get; set; }
 
         //Solucion adoptada por problema con Entity Framework persistiendo entidad hija además de la padre 
@@ -28,7 +31,9 @@ namespace Medisysnae.Models
         #endregion
 
         public string Domicilio { get; set; }
-        public Int64 Telefono { get; set; }
+        [Required(ErrorMessage = "El campo Telefono es obligatorio")]
+        [DataType(DataType.Text, ErrorMessage = "El valor ingresado no puede ser un caracter")]
+        public Int64? Telefono { get; set; }
         [Display(Name ="Nro afiliado")]
         public string NroAfiliado { get; set; }
         public string Comentario { get; set; }
