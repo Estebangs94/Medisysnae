@@ -34,7 +34,7 @@
 
                         <input type="hidden" asp-for="PacienteID" />
                         <div class="form-group">
-                            <label class="form-control-label">Fecha y hora</label>
+                            <label class="form-control-label">Fecha y hora*</label>
                             <input asp-for="FechaAtencion" class="form-control" />
                             <span asp-validation-for="FechaAtencion" class="text-danger"></span>
                         </div>
@@ -52,7 +52,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label">Tratamiento</label>
+                            <label class="control-label">Tratamiento*</label>
                             <select asp-for="tratamiento.ID" class="form-control" asp-items="@Model.TratamientosList">
                                 <option value="">Seleccionar</option>
                             </select>
@@ -180,7 +180,7 @@
                                 {
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.FechaHora)
+                                        @Html.DisplayFor(modelItem => item.FechaHoraString)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Titulo)

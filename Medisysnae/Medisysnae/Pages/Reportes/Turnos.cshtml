@@ -178,6 +178,12 @@
                             Fecha
                         </th>
                         <th>
+                            Hora inicio
+                        </th>
+                        <th>
+                            Hora fin
+                        </th>
+                        <th>
                             Paciente
                         </th>
                         <th>
@@ -189,9 +195,6 @@
                         <th>
                             Lugar atencion
                         </th>
-                        <th>
-                            Comentario
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -201,20 +204,17 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.FechaTurno)
+                                    @Html.DisplayFor(modelItem => item.FechaTurnoString)
                                 </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.EstadoString)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.LugarAtencion)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Comentario)
                                 </td>
                             </tr>
                         }
@@ -222,7 +222,13 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.FechaTurno)
+                                    @Html.DisplayFor(modelItem => item.FechaTurnoString)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HoraComienzo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HoraFin)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Paciente.ApellidoNombre)
@@ -235,9 +241,6 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.LugarAtencion)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Comentario)
                                 </td>
                             </tr>
                         }

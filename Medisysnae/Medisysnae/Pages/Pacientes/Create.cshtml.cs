@@ -65,9 +65,7 @@ namespace Medisysnae.Pages.Pacientes
             Paciente.EstaActivo = true;
 
             _context.Paciente.Add(Paciente);
-
-          
-
+        
             foreach (Antecedente a in Antecedentes)
             {
                 Antecedentespaciente ap = new Antecedentespaciente();

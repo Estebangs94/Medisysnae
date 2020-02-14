@@ -50,9 +50,11 @@ namespace Medisysnae.Pages.Pacientes
         {
             if (!ModelState.IsValid)
             {
+                CargarOS();
                 return Page();
             }
 
+            Paciente.EstaActivo = true;
             _context.Attach(Paciente).State = EntityState.Modified;
 
             try

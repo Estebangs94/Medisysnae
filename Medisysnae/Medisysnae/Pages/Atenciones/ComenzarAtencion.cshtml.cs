@@ -89,9 +89,14 @@ namespace Medisysnae.Pages.Atenciones
                 .Include(i => i.Paciente)
                 .Include(i => i.Medico)
                 .OrderBy(i => i.FechaHora)
-                .Where(i => i.EstaEliminada == false)
+                .Where(i => i.EstaActiva == true)
                 .Where(i => i.Paciente.ID == Paciente.ID)
                 .ToListAsync();
+
+            foreach (var item in AtencionesPaciente)
+            {
+                item.FechaHoraString = item.FechaHora.ToString("dd/MM/yyyy");
+            }
 
 
             FechaAtencion = DateTime.Now;
@@ -108,11 +113,6 @@ namespace Medisysnae.Pages.Atenciones
 
         public async Task<IActionResult> OnPostAsync()
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return Page();
-            //}
-
             string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
             UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
 
@@ -129,6 +129,7 @@ namespace Medisysnae.Pages.Atenciones
             Atencion.Diagnostico = DiagnosticoAtencion;
             Atencion.Medicacion = MedicacionAtencion;
             Atencion.Comentario = ComentarioAtencion;
+            Atencion.EstaActiva = true;
 
             _context.Atencion.Add(Atencion);
 

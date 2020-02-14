@@ -74,7 +74,7 @@ namespace Medisysnae.Pages.Reportes
 
             Atenciones = await _context.Atencion.Include(a => a.Paciente)
                          .Include(a => a.Medico)
-                         .Where(a => a.Medico.NombreUsuario == UsuarioActual.NombreUsuario)
+                         .Where(a => a.Medico.NombreUsuario == UsuarioActual.NombreUsuario && a.EstaActiva == true)
                          .ToListAsync();
 
 
@@ -82,6 +82,7 @@ namespace Medisysnae.Pages.Reportes
             foreach (Atencion ate in Atenciones)
             {
                 ate.Paciente.Obrasocial = await _context.Obrasocial.FirstOrDefaultAsync(m => m.ID == ate.Paciente.Obrasocial_ID);
+                ate.FechaHoraString = ate.FechaHora.ToString("dd/MM/yyyy");
             }
 
             Filtrar();
@@ -142,7 +143,7 @@ namespace Medisysnae.Pages.Reportes
         {
             Pacientes = _context.Paciente.OrderBy(i => i.ApellidoNombre)
                 .Include(m => m.Medico)
-                .Where(p => p.Medico.NombreUsuario == UsuarioActual.NombreUsuario)
+                .Where(p => p.Medico.NombreUsuario == UsuarioActual.NombreUsuario  && p.EstaActivo == true)
                 .ToList();
             PacientesList = new SelectList(Pacientes, "ID", "ApellidoNombre", null);
         }

@@ -20,7 +20,7 @@ namespace Medisysnae.Models
         public string Password { get; set; }
 
         [Display(Name ="Habilitado")]
-        public bool EstaHabilitado { get; set; }
+        public bool EstaActivo { get; set; }
         [Display(Name ="Administrador")]
         public bool EsAdministrador { get; set; }
 
@@ -56,7 +56,7 @@ namespace Medisysnae.Models
         {
             get
             {
-                if (EstaHabilitado == true)
+                if (EstaActivo == true)
                 {
                     return "Si";
                 }

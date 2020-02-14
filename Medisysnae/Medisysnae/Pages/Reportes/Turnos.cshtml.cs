@@ -77,8 +77,8 @@ namespace Medisysnae.Pages.Reportes
         {
             await BuscarUsuario();
 
-            Turnos = await _context.Turno.Include(a => a.Paciente)
-                         .Where(a => a.NombreUsuario == UsuarioActual.NombreUsuario)
+            Turnos = await _context.Turno.Include(a => a.Paciente).Where(a => a.Paciente_ID != null)
+                         .Where(a => a.NombreUsuario == UsuarioActual.NombreUsuario && a.EstaActivo == true)
                          .ToListAsync();
 
             foreach (Turno t in Turnos)
@@ -94,7 +94,16 @@ namespace Medisysnae.Pages.Reportes
                 _turnosIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
 
             CargarCombos();
+            CargarFechaturno();
             return Page();
+        }
+
+        private void CargarFechaturno()
+        {
+            foreach (var item in TurnosPaginados)
+            {
+                item.FechaTurnoString = item.FechaTurno.ToString("dd/MM/yyyy");
+            }
         }
 
         private void Filtrar()
@@ -165,7 +174,7 @@ namespace Medisysnae.Pages.Reportes
         {
             Pacientes = _context.Paciente.OrderBy(i => i.ApellidoNombre)
                 .Include(m => m.Medico)
-                .Where(p => p.Medico.NombreUsuario == UsuarioActual.NombreUsuario)
+                .Where(p => p.Medico.NombreUsuario == UsuarioActual.NombreUsuario && p.EstaActivo == true)
                 .ToList();
             PacientesList = new SelectList(Pacientes, "ID", "ApellidoNombre", null);
         }

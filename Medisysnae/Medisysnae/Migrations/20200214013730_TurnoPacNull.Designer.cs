@@ -4,14 +4,16 @@ using Medisysnae.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Medisysnae.Migrations
 {
     [DbContext(typeof(MedisysnaeContext))]
-    partial class MedisysnaeContextModelSnapshot : ModelSnapshot
+    [Migration("20200214013730_TurnoPacNull")]
+    partial class TurnoPacNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,8 +85,6 @@ namespace Medisysnae.Migrations
 
                     b.Property<DateTime>("FechaHora");
 
-                    b.Property<string>("FechaHoraString");
-
                     b.Property<string>("Medicacion");
 
                     b.Property<string>("MedicoNombreUsuario");
@@ -124,23 +124,6 @@ namespace Medisysnae.Migrations
                     b.ToTable("Especialidad");
                 });
 
-            modelBuilder.Entity("Medisysnae.Models.LugaresAtencion", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("EstaActivo");
-
-                    b.Property<string>("Lugar");
-
-                    b.Property<int>("ProfesionalID");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("LugaresAtencion");
-                });
-
             modelBuilder.Entity("Medisysnae.Models.Obrasocial", b =>
                 {
                     b.Property<int>("ID")
@@ -171,9 +154,7 @@ namespace Medisysnae.Migrations
 
                     b.Property<bool>("EstaActivo");
 
-                    b.Property<DateTime>("FechaCreacion");
-
-                    b.Property<string>("FechaCreacionString");
+                    b.Property<DateTime?>("FechaCreacion");
 
                     b.Property<string>("Mail");
 

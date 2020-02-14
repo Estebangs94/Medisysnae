@@ -53,9 +53,9 @@ namespace Medisysnae.Pages.Turnos
             _context.Attach(TurnoToUpdate).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            await CargarTurnos(TurnoToUpdate.FechaTurno.Date);
+            var ruta = $"/Atenciones/ComenzarAtencion?id={TurnoToUpdate.Paciente_ID}";
 
-            return Page();
+            return Redirect($"/Atenciones/ComenzarAtencion?id={TurnoToUpdate.Paciente_ID}");
         }
 
         public async Task<IActionResult> OnPostCancelar(int id)
@@ -85,7 +85,7 @@ namespace Medisysnae.Pages.Turnos
 
             IQueryable<Turno> turnoIQ = from t in _context.Turno
                                         select t;
-            turnoIQ = turnoIQ.Where(t => t.NombreUsuario == UsuarioActual.NombreUsuario);
+            turnoIQ = turnoIQ.Where(t => t.NombreUsuario == UsuarioActual.NombreUsuario && t.EstaActivo == true);
             turnoIQ = turnoIQ.Where(t => t.FechaTurno.Date == date.Date)
                              .OrderBy(t => t.HoraComienzo);
 

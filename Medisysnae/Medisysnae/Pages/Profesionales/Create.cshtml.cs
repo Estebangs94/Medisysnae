@@ -34,7 +34,7 @@ namespace Medisysnae.Pages.Profesionales
                 return Page();
             }
 
-            Profesional.EstaHabilitado = true;
+            Profesional.EstaActivo = true;
             Profesional.EsAdministrador = false;
 
             var Usuario = await _context.Profesional.FindAsync(Profesional.NombreUsuario);

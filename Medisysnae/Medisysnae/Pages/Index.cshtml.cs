@@ -51,7 +51,7 @@ namespace Medisysnae.Pages
                 TempData["ErrorLogin"] = "Usuario o contraseña incorrectos";
                 return Page();
             }
-            else if (prof.EstaHabilitado == false)
+            else if (prof.EstaActivo == false)
             {
                 TempData["ErrorLogin"] = "El usuario esta inhabilitado";
                 return Page();

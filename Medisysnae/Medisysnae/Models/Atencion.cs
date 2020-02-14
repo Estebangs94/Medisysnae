@@ -14,6 +14,7 @@ namespace Medisysnae.Models
         public Profesional Medico { get; set; }
         public Paciente Paciente { get; set; }
         public DateTime FechaHora { get; set; }
+        public string FechaHoraString { get; set; }
 
 
         [Display(Name = "Tratamiento")]
@@ -30,7 +31,7 @@ namespace Medisysnae.Models
         public string Descripcion { get; set; } //es el campo observaciones
 
         //Si es true no se muesta en la HC
-        public bool EstaEliminada { get; set; } 
+        public bool EstaActiva { get; set; } 
 
         public string Medicacion { get; set; }
         public string Comentario { get; set; }

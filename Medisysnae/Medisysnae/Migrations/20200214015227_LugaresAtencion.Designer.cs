@@ -4,14 +4,16 @@ using Medisysnae.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Medisysnae.Migrations
 {
     [DbContext(typeof(MedisysnaeContext))]
-    partial class MedisysnaeContextModelSnapshot : ModelSnapshot
+    [Migration("20200214015227_LugaresAtencion")]
+    partial class LugaresAtencion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,8 +84,6 @@ namespace Medisysnae.Migrations
                     b.Property<bool>("EstaActiva");
 
                     b.Property<DateTime>("FechaHora");
-
-                    b.Property<string>("FechaHoraString");
 
                     b.Property<string>("Medicacion");
 
@@ -171,9 +171,7 @@ namespace Medisysnae.Migrations
 
                     b.Property<bool>("EstaActivo");
 
-                    b.Property<DateTime>("FechaCreacion");
-
-                    b.Property<string>("FechaCreacionString");
+                    b.Property<DateTime?>("FechaCreacion");
 
                     b.Property<string>("Mail");
 

@@ -87,12 +87,13 @@ namespace Medisysnae.Pages.Reportes
             await BuscarUsuario();
 
             Pacientes = await _context.Paciente.Include(a => a.Medico)
-                         .Where(a => a.Medico.NombreUsuario == UsuarioActual.NombreUsuario)
+                         .Where(a => a.Medico.NombreUsuario == UsuarioActual.NombreUsuario && a.EstaActivo == true)
                          .ToListAsync();
 
             foreach (Paciente pac in Pacientes)
             {
                 pac.Obrasocial = await _context.Obrasocial.FirstOrDefaultAsync(m => m.ID == pac.Obrasocial_ID);
+                pac.FechaCreacionString = pac.FechaCreacion.ToString("dd/MM/yyyy");
             }
 
             Filtrar();

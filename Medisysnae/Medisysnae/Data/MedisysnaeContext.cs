@@ -22,5 +22,6 @@ namespace Medisysnae.Data
         public DbSet<Medisysnae.Models.Antecedente> Antecedente { get; set; }
         public DbSet<Medisysnae.Models.Antecedentespaciente> AntecedentePaciente { get; set; }
         public DbSet<Medisysnae.Models.Tratamiento> Tratamiento { get; set; }
+        public DbSet<LugaresAtencion> LugaresAtencion { get; set; }
     }
 }

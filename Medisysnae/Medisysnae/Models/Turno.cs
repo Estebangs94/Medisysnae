@@ -12,7 +12,7 @@ namespace Medisysnae.Models
 
         [ForeignKey("Paciente_ID")]
         public Paciente Paciente { get; set; }
-        public int Paciente_ID { get; set; }
+        public int? Paciente_ID { get; set; }
 
         public string Comentario { get; set; }
         public string NombreUsuario { get; set; }
@@ -23,9 +23,11 @@ namespace Medisysnae.Models
         public enum Accion { Otorgar, Reservar, Cancelar, Atender, Bloquear };
 
         public DateTime FechaTurno { get; set; }
+        public string FechaTurnoString { get; set; }
         public TimeSpan HoraComienzo { get; set; }
         public TimeSpan HoraFin { get; set; }
 
+        public bool EstaActivo { get; set; }
 
     }
 }
