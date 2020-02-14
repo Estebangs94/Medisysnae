@@ -5,33 +5,34 @@
     ViewData["Title"] = "Edit";
 }
 
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        .material-icons.green600 {
+            color: lightgreen;
+        }
+    </style>
+</head>
 <h1>Editar</h1>
 
 <h4>Usuario</h4>
 <hr />
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
 <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Profesional.NombreUsuario" />
             <div class="form-group">
-                <label asp-for="Profesional.Password" class="control-label"></label>
-                <input asp-for="Profesional.Password" class="form-control" />
-                <span asp-validation-for="Profesional.Password" class="text-danger"></span>
+                <input type="hidden" asp-for="Profesional.MostrarPass" />
             </div>
-            @if (Model.UsuarioActual.EsAdministrador)
-            {
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="Profesional.EstaActivo" />@Html.DisplayNameFor(model => model.Profesional.EstaActivo)
-                    </label>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="Profesional.EsAdministrador" />@Html.DisplayNameFor(model => model.Profesional.EsAdministrador)
-                    </label>
-                </div>
-            }
+
+            <div class="form-group form-check">
+                <input type="hidden" class="form-check-input" asp-for="Profesional.EstaActivo" />
+            </div>
+            <div class="form-group form-check">
+                <input type="hidden" class="form-check-input" asp-for="Profesional.EsAdministrador" />
+            </div>
             <div class="form-group">
                 <label asp-for="Profesional.DNI" class="control-label"></label>
                 <input asp-for="Profesional.DNI" class="form-control" />
@@ -62,7 +63,20 @@
                 <input asp-for="Profesional.Matricula" class="form-control" />
                 <span asp-validation-for="Profesional.Matricula" class="text-danger"></span>
             </div>
-
+            <div class="form-group">
+                <label class="control-label">Lugares de atención</label>
+                <select asp-for="LugarAtencionID" class="form-control" asp-items="@Model.LugaresAtencionList">
+                    <option value="0">Seleccionar</option>
+                </select>
+                <br />
+                <input type="submit" asp-page-handler="BorrarLugarAtencion" value="Borrar" class="btn btn-danger" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Agregar lugar atención</label>
+                <input asp-for="AregarLugarAtencion" class="form-control" />
+                <br />
+                <input type="submit" asp-page-handler="AgregarLugarAtencion" value="Agregar" class="btn btn-success" />
+            </div>
             <div class="form-group">
                 <input type="submit" value="Guardar" class="btn btn-primary" />
                 @if (Model.UsuarioActual.EsAdministrador)

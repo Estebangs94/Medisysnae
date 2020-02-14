@@ -29,7 +29,9 @@ namespace Medisysnae.Pages.Profesionales
             string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
             UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
 
-            Profesional = await _context.Profesional.ToListAsync();
+            Profesional = await _context.Profesional
+                .Where(p => p.EstaActivo == true)
+                .ToListAsync();
         }
     }
 }

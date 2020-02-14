@@ -49,7 +49,8 @@ namespace Medisysnae.Pages.Profesionales
 
             if (Profesional != null)
             {
-                _context.Profesional.Remove(Profesional);
+                Profesional.EstaActivo = false;
+                _context.Attach(Profesional).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
 

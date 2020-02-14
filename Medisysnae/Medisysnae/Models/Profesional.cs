@@ -15,7 +15,6 @@ namespace Medisysnae.Models
         public string NombreUsuario { get; set; }
 
         [Required(ErrorMessage = "El campo contraseña es obligatorio")]
-        [DataType(DataType.Password)]
         [MinLength(8, ErrorMessage ="La contraseña debe ser de al menos 8 caracteres")]
         public string Password { get; set; }
 
@@ -34,6 +33,8 @@ namespace Medisysnae.Models
         [Required(ErrorMessage = "El campo D.N.I es obligatorio")]
         [Display(Name = "D.N.I")]
         public string DNI { get; set; }
+
+        public string MostrarPass { get; set; }
 
         [Required(ErrorMessage = "El campo Telefono es obligatorio")]
         [DataType(DataType.Text, ErrorMessage = "El valor ingresado no puede ser un caracter")]

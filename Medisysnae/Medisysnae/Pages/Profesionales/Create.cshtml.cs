@@ -41,7 +41,8 @@ namespace Medisysnae.Pages.Profesionales
 
             if(Usuario != null)
             {
-                
+                ModelState.AddModelError("UsuarioDuplicado", "El usuario que ha ingresado ya existe. Si olvido su contraseña recupérela");
+                return Page();
             }
 
             _context.Profesional.Add(Profesional);

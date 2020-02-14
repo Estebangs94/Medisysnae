@@ -9,7 +9,7 @@ namespace Medisysnae.Models
     {
         public int ID { get; set; }
         public string Lugar { get; set; }       
-        public int ProfesionalID { get; set; }
+        public string UsuarioProfesional { get; set; }
         public bool EstaActivo { get; set; }
     }
 }

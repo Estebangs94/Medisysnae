@@ -43,7 +43,7 @@ namespace Medisysnae.Pages.Atenciones
 
         //Efectivamente se pueden agregar DataAnotations en el code behind. Aprovechar para hacer validaciones..
         [BindProperty]
-        [Display(Name ="Diagnóstico")]
+        [Display(Name = "Diagnóstico")]
         public string DiagnosticoAtencion { get; set; }
 
         [BindProperty]
@@ -52,7 +52,7 @@ namespace Medisysnae.Pages.Atenciones
         public IList<Antecedentespaciente> AntecedentesPaciente { get; set; }
         public IList<Atencion> AtencionesPaciente { get; set; }
         public IList<Tratamiento> TratamientosTodos { get; set; }
- 
+
         public Atencion ate { get; set; }
         public SelectList TratamientosList { get; set; }
 
@@ -75,20 +75,26 @@ namespace Medisysnae.Pages.Atenciones
 
             PacienteID = Paciente.ID;
 
+            await CargarDatos();
+            return Page();
+        }
+
+        private async Task CargarDatos()
+        {
             cargarTratamientos();
 
             AntecedentesPaciente = await _context.AntecedentePaciente
-                .Include(i => i.Paciente)
-                .Include(i => i.Antecedente)
-                .Include(i => i.Medico)
-                .OrderBy(i => i.Antecedente.Orden)
-                .Where(i => i.Paciente.ID == Paciente.ID)
-                .ToListAsync();
+                            .Include(i => i.Paciente)
+                            .Include(i => i.Antecedente)
+                            .Include(i => i.Medico)
+                            .OrderBy(i => i.Antecedente.Orden)
+                            .Where(i => i.Paciente.ID == Paciente.ID)
+                            .ToListAsync();
 
             AtencionesPaciente = await _context.Atencion
                 .Include(i => i.Paciente)
                 .Include(i => i.Medico)
-                .OrderBy(i => i.FechaHora)
+                .OrderByDescending(i => i.FechaHora)
                 .Where(i => i.EstaActiva == true)
                 .Where(i => i.Paciente.ID == Paciente.ID)
                 .ToListAsync();
@@ -101,8 +107,6 @@ namespace Medisysnae.Pages.Atenciones
 
             FechaAtencion = DateTime.Now;
             FechaAtencion = new DateTime(FechaAtencion.Year, FechaAtencion.Month, FechaAtencion.Day, FechaAtencion.Hour, FechaAtencion.Minute, 0, FechaAtencion.Kind);
-            
-            return Page();
         }
 
         private void cargarTratamientos()
@@ -135,7 +139,8 @@ namespace Medisysnae.Pages.Atenciones
 
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            await CargarDatos();
+            return Page();
         }
     }
 }
