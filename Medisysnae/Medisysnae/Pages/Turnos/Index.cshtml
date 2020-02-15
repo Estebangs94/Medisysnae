@@ -930,8 +930,8 @@
                             @Html.DisplayFor(modelItem => item.EstadoString)
                         </td>
                         <td>
-                            <input type="submit" class="btn btn-success" value="Atender" asp-page-handler="Atender" />
-                            <input type="hidden" name="id" value="@item.ID" />
+                            <input asp-route-id="@item.ID" type="submit" class="btn btn-success" value="Atender" asp-page-handler="Atender" />
+                            <a asp-page="./Index" asp-page-handler="Atender" asp-route-id="@item.ID"> TEST</a>
 
                             <input type="submit" class="btn btn-danger" value="Cancelar" asp-page-handler="Cancelar" />
                             <input type="hidden" name="id" value="@item.ID" />

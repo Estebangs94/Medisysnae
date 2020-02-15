@@ -31,7 +31,7 @@ namespace Medisysnae.Pages.Reportes
         public List<Paciente> Pacientes { get; set; }
 
         public SelectList LugaresAtencionList { get; set; }
-        public IQueryable<string> LugaresAtencion { get; set; }
+        public List<LugaresAtencion> LugaresAtencion { get; set; }
 
         public SelectList EstadosList { get; set; }
         public List<string> Estados { get; set; }
@@ -138,7 +138,10 @@ namespace Medisysnae.Pages.Reportes
                 Turnos = Turnos.Where(a => a.FechaTurno <= Reportes.FechaHasta).ToList();
             }
 
-            Turnos = Turnos.OrderBy(a => a.FechaTurno).ToList();
+            Turnos = Turnos
+                    .OrderBy(t => t.HoraComienzo)
+                    .OrderBy(a => a.FechaTurno)
+                    .ToList();
         }
 
         private void CargarCombos()
@@ -163,11 +166,11 @@ namespace Medisysnae.Pages.Reportes
 
         private void cargarLugaresAtencion()
         {
-            LugaresAtencion = from t in _context.Turno
-                          select t.LugarAtencion;
-            LugaresAtencion = LugaresAtencion.Distinct();
+            LugaresAtencion = _context.LugaresAtencion
+                              .Where(l => l.EstaActivo && l.UsuarioProfesional == UsuarioActual.NombreUsuario)
+                              .ToList();
                         
-            LugaresAtencionList = new SelectList(LugaresAtencion);
+            LugaresAtencionList = new SelectList(LugaresAtencion, "Lugar", "Lugar", null);
         }
 
         private void cargarPacientes()

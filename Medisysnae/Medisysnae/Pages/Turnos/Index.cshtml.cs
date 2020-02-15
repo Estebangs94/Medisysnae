@@ -19,7 +19,7 @@ namespace Medisysnae.Pages.Turnos
 
         [BindProperty]
         public Profesional UsuarioActual { get; set; }
-        
+
         [BindProperty]
         public DateTime DiaActual { get; set; }
 
@@ -41,7 +41,7 @@ namespace Medisysnae.Pages.Turnos
         }
 
         public async Task<IActionResult> OnPostChangeDate(DateTime date)
-        {          
+        {
             DiaActual = date;
             return await CargarTurnos(DiaActual);
         }
@@ -57,7 +57,8 @@ namespace Medisysnae.Pages.Turnos
 
             return Redirect($"/Atenciones/ComenzarAtencion?id={TurnoToUpdate.Paciente_ID}");
         }
-
+        
+        
         public async Task<IActionResult> OnPostCancelar(int id)
         {
             TurnoToUpdate = await _context.Turno.SingleOrDefaultAsync(t => t.ID == id);

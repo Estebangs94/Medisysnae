@@ -27,6 +27,9 @@ namespace Medisysnae.Pages.Turnos
         public SelectList PacientesList { get; set; }
         public List<Paciente> Pacientes { get; set; }
 
+        public List<LugaresAtencion> LugaresAtencion { get; set; }
+        public SelectList LugaresAtencionList { get; set; }
+
         private readonly Medisysnae.Data.MedisysnaeContext _context;
 
         public CreateModel(Medisysnae.Data.MedisysnaeContext context)
@@ -41,11 +44,21 @@ namespace Medisysnae.Pages.Turnos
 
             CargarPacientes();
             CargarEstados();
+            cargarLugaresAtencion();
 
             TurnoActual = new Turno();
             TurnoActual.FechaTurno = DateTime.Now.Date;
 
             return Page();
+        }
+
+        private void cargarLugaresAtencion()
+        {
+            LugaresAtencion = _context.LugaresAtencion
+                              .Where(l => l.UsuarioProfesional == UsuarioActual.NombreUsuario && l.EstaActivo)
+                              .ToList();
+
+            LugaresAtencionList = new SelectList(LugaresAtencion, "Lugar", "Lugar", null);
         }
 
         private void CargarEstados()
@@ -85,6 +98,7 @@ namespace Medisysnae.Pages.Turnos
             {
                 CargarPacientes();
                 CargarEstados();
+                cargarLugaresAtencion();
                 return Page();
             }
 

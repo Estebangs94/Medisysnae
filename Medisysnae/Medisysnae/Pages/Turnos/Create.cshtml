@@ -37,7 +37,9 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Lugar de atención</label>
-                <input type="text" asp-for="TurnoActual.LugarAtencion" class="form-control" />
+                <select asp-for="TurnoActual.LugarAtencion" class="form-control" asp-items="@Model.LugaresAtencionList">
+                    <option value="">Seleccionar</option>
+                </select>
             </div>
             <div class="form-group">
                 <label class="control-label">Acción</label>

@@ -101,6 +101,16 @@ namespace Medisysnae.Pages.Profesionales
 
         public async Task<IActionResult> OnPostBorrarLugarAtencion()
         {
+            if(LugarAtencionID == 0)
+            {
+                ModelState.Remove("Profesional.Password");
+                ModelState.AddModelError("LugarInvalido", $"Debe seleccionar un valor válido para eliminar");
+                await cargarLugaresAtencion();
+                await CargarUsuarioActual();
+
+                return Page();
+            }
+
             LugaresAtencion lugar = await _context.LugaresAtencion.FindAsync(LugarAtencionID);
             lugar.EstaActivo = false;
             _context.Attach(lugar).State = EntityState.Modified;
