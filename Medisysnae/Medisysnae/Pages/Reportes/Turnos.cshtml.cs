@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Medisysnae.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 
 namespace Medisysnae.Pages.Reportes
 {
@@ -39,10 +43,12 @@ namespace Medisysnae.Pages.Reportes
         private IQueryable<Turno> _turnosIQ { get; set; }
 
         private readonly Data.MedisysnaeContext _context;
+        private IHostingEnvironment _hostingEnvironment;
 
-        public TurnosModel(Data.MedisysnaeContext context)
+        public TurnosModel(Data.MedisysnaeContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         private const int pageSize = 7;
@@ -192,6 +198,74 @@ namespace Medisysnae.Pages.Reportes
         {
             string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
             UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
+        }
+
+        public async Task<IActionResult> OnPostExportar()
+        {
+            string sWebRootFolder = _hostingEnvironment.WebRootPath;
+            string sFileName = @"turnos.xlsx";
+            string URL = string.Format("{0}://{1}/{2}", Request.Scheme, Request.Host, sFileName);
+            FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
+            var memory = new MemoryStream();
+            using (var fs = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
+            {
+                IWorkbook workbook;
+                workbook = new XSSFWorkbook();
+                ISheet excelSheet = workbook.CreateSheet("Reporte");
+                IRow row = excelSheet.CreateRow(0);
+
+                await GenerarDatosExportacion();
+
+                foreach (var item in Turnos)
+                {
+                    item.FechaTurnoString = item.FechaTurno.ToString("dd/MM/yyyy");
+                }
+
+                row.CreateCell(0).SetCellValue("Fecha turno");
+                row.CreateCell(1).SetCellValue("Hora inicio");
+                row.CreateCell(2).SetCellValue("Hora fin");
+                row.CreateCell(3).SetCellValue("Paciente");
+                row.CreateCell(4).SetCellValue("Obra social");
+                row.CreateCell(5).SetCellValue("Estado");
+                row.CreateCell(6).SetCellValue("Lugar de atención");
+
+                for (int i = 0; i < Turnos.Count; i++)
+                {
+                    row = excelSheet.CreateRow(i + 1);
+                    row.CreateCell(0).SetCellValue(Turnos[i].FechaTurnoString);
+                    row.CreateCell(1).SetCellValue(Turnos[i].HoraComienzo.ToString());
+                    row.CreateCell(2).SetCellValue(Turnos[i].HoraFin.ToString());
+                    row.CreateCell(3).SetCellValue(Turnos[i].Paciente.ApellidoNombre);
+                    row.CreateCell(4).SetCellValue(Turnos[i].Paciente.Obrasocial.Nombre);
+                    row.CreateCell(5).SetCellValue(Turnos[i].EstadoString);
+                    row.CreateCell(6).SetCellValue(Turnos[i].LugarAtencion);
+
+                }
+
+                workbook.Write(fs);
+            }
+            using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+        }
+
+        private async Task GenerarDatosExportacion()
+        {
+            await BuscarUsuario();
+
+            Turnos = await _context.Turno.Include(a => a.Paciente).Where(a => a.Paciente_ID != null)
+                         .Where(a => a.NombreUsuario == UsuarioActual.NombreUsuario && a.EstaActivo == true)
+                         .ToListAsync();
+
+            foreach (Turno t in Turnos)
+            {
+                t.Paciente.Obrasocial = await _context.Obrasocial.FirstOrDefaultAsync(m => m.ID == t.Paciente.Obrasocial_ID);
+            }
+
+            Filtrar();
         }
     }
 }

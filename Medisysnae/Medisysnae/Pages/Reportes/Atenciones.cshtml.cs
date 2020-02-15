@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Medisysnae.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 
 namespace Medisysnae.Pages.Reportes
 {
@@ -34,11 +38,14 @@ namespace Medisysnae.Pages.Reportes
         private IQueryable<Atencion> _atencionesIQ { get; set; }
 
         private readonly Data.MedisysnaeContext _context;
+        private IHostingEnvironment _hostingEnvironment;
+
         private const int pageSize = 7;
 
-        public AtencionesModel(Data.MedisysnaeContext context)
+        public AtencionesModel(Data.MedisysnaeContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -159,6 +166,71 @@ namespace Medisysnae.Pages.Reportes
         {
             string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");
             UsuarioActual = await _context.Profesional.FirstOrDefaultAsync(m => m.NombreUsuario == NombreUsuarioActual);
+        }
+
+        public async Task<IActionResult> OnPostExportar()
+        {
+            string sWebRootFolder = _hostingEnvironment.WebRootPath;
+            string sFileName = @"atenciones.xlsx";
+            string URL = string.Format("{0}://{1}/{2}", Request.Scheme, Request.Host, sFileName);
+            FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
+            var memory = new MemoryStream();
+            using (var fs = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
+            {
+                IWorkbook workbook;
+                workbook = new XSSFWorkbook();
+                ISheet excelSheet = workbook.CreateSheet("Reporte");
+                IRow row = excelSheet.CreateRow(0);
+
+                await GenerarDatosExportacion();
+
+                row.CreateCell(0).SetCellValue("Fecha atención");
+                row.CreateCell(1).SetCellValue("Paciente");
+                row.CreateCell(2).SetCellValue("Obra social");
+                row.CreateCell(3).SetCellValue("Tratamiento");
+                row.CreateCell(4).SetCellValue("Motivo de consulta");
+                row.CreateCell(5).SetCellValue("Comentario");
+
+                for (int i = 0; i < Atenciones.Count; i++)
+                {
+                    row = excelSheet.CreateRow(i + 1);
+                    row.CreateCell(0).SetCellValue(Atenciones[i].FechaHoraString);
+                    row.CreateCell(1).SetCellValue(Atenciones[i].Paciente.ApellidoNombre);
+                    row.CreateCell(2).SetCellValue(Atenciones[i].Paciente.Obrasocial.Nombre);
+                    row.CreateCell(3).SetCellValue(Atenciones[i].Tratamiento.Nombre);
+                    row.CreateCell(4).SetCellValue(Atenciones[i].Titulo);
+                    row.CreateCell(5).SetCellValue(Atenciones[i].Comentario);
+                }
+
+                workbook.Write(fs);
+            }
+            using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+        }
+
+        private async Task GenerarDatosExportacion()
+        {
+            await BuscarUsuario();
+
+            Atenciones = await _context.Atencion.Include(a => a.Paciente)
+                         .Include(a => a.Medico)
+                         .Where(a => a.Medico.NombreUsuario == UsuarioActual.NombreUsuario && a.EstaActiva == true)
+                         .ToListAsync();
+
+
+
+            foreach (Atencion ate in Atenciones)
+            {
+                ate.Paciente.Obrasocial = await _context.Obrasocial.FirstOrDefaultAsync(m => m.ID == ate.Paciente.Obrasocial_ID);
+                ate.FechaHoraString = ate.FechaHora.ToString("dd/MM/yyyy");
+                ate.Tratamiento = await _context.Tratamiento.FirstOrDefaultAsync(t => t.ID == ate.Tratamiento_ID);
+            }
+
+            Filtrar();
         }
     }
 }

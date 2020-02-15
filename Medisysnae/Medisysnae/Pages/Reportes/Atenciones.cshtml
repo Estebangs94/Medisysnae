@@ -181,7 +181,7 @@
                             Tratamiento
                         </th>
                         <th>
-                            Titulo
+                            Motivo de consulta
                         </th>
                         <th>
                             Comentario
@@ -214,6 +214,10 @@
                     }
                 </tbody>
             </table>
+            <div>
+                <input type="submit" asp-page-handler="Exportar" value="Exportar" class="btn btn-secondary" />
+            </div>
+            <br />
             {
                 var prevDisabled = !Model.AtencionesPaginadas.HasPreviousPage ? "disabled" : "";
                 var nextDisabled = !Model.AtencionesPaginadas.HasNextPage ? "disabled" : "";

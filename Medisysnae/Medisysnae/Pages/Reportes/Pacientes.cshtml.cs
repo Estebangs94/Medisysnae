@@ -1,11 +1,15 @@
 ﻿using Medisysnae.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -31,10 +35,13 @@ namespace Medisysnae.Pages.Reportes
 
 
         private readonly Data.MedisysnaeContext _context;
+        private IHostingEnvironment _hostingEnvironment;
+
         private const int pageSize = 7;
 
-        public PacientesModel(Data.MedisysnaeContext context)
+        public PacientesModel(Data.MedisysnaeContext context, IHostingEnvironment hostingEnvironment)
         {
+            _hostingEnvironment = hostingEnvironment;
             _context = context;
         }
 
@@ -63,6 +70,64 @@ namespace Medisysnae.Pages.Reportes
         public async Task<IActionResult> OnPostGenerarPrev(int? pageIndexPrev)
         {
             return await GenerarReporte(pageIndexPrev);
+        }
+
+        public async Task<IActionResult> OnPostExportar()
+        {
+            string sWebRootFolder = _hostingEnvironment.WebRootPath;
+            string sFileName = @"pacientes.xlsx";
+            string URL = string.Format("{0}://{1}/{2}", Request.Scheme, Request.Host, sFileName);
+            FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
+            var memory = new MemoryStream();
+            using (var fs = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
+            {
+                IWorkbook workbook;
+                workbook = new XSSFWorkbook();
+                ISheet excelSheet = workbook.CreateSheet("Reporte");
+                IRow row = excelSheet.CreateRow(0);
+
+                await GenerarDatosExportacion();
+
+                row.CreateCell(0).SetCellValue("Fecha creacion");
+                row.CreateCell(1).SetCellValue("Paciente");
+                row.CreateCell(2).SetCellValue("Obra social");
+                row.CreateCell(3).SetCellValue("Comentario");
+
+                for (int i = 0; i < Pacientes.Count; i++)
+                {
+                    row = excelSheet.CreateRow(i + 1);
+                    row.CreateCell(0).SetCellValue(Pacientes[i].FechaCreacionString);
+                    row.CreateCell(1).SetCellValue(Pacientes[i].ApellidoNombre);
+                    row.CreateCell(2).SetCellValue(Pacientes[i].Obrasocial.Nombre);
+                    row.CreateCell(3).SetCellValue(Pacientes[i].Comentario);
+
+                }
+              
+                workbook.Write(fs);
+            }
+            using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+        }
+
+        private async Task GenerarDatosExportacion()
+        {
+            await BuscarUsuario();
+
+            Pacientes = await _context.Paciente.Include(a => a.Medico)
+                         .Where(a => a.Medico.NombreUsuario == UsuarioActual.NombreUsuario && a.EstaActivo == true)
+                         .ToListAsync();
+
+            foreach (Paciente pac in Pacientes)
+            {
+                pac.Obrasocial = await _context.Obrasocial.FirstOrDefaultAsync(m => m.ID == pac.Obrasocial_ID);
+                pac.FechaCreacionString = pac.FechaCreacion.ToString("dd/MM/yyyy");
+            }
+
+            Filtrar();
         }
 
         private async Task BuscarUsuario()

@@ -185,6 +185,10 @@
                     }
                 </tbody>
             </table>
+            <div>
+                <input type="submit" asp-page-handler="Exportar" value="Exportar" class="btn btn-secondary" />
+            </div>
+            <br />
             {
                 var prevDisabled = !Model.PacientesPaginados.HasPreviousPage ? "disabled" : "";
                 var nextDisabled = !Model.PacientesPaginados.HasNextPage ? "disabled" : "";

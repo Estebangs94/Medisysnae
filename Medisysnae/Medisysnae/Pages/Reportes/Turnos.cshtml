@@ -247,6 +247,10 @@
                     }
                 </tbody>
             </table>
+            <div>
+                <input type="submit" asp-page-handler="Exportar" value="Exportar" class="btn btn-secondary" />
+            </div>
+            <br />
             {
                 var prevDisabled = !Model.TurnosPaginados.HasPreviousPage ? "disabled" : "";
                 var nextDisabled = !Model.TurnosPaginados.HasNextPage ? "disabled" : "";
