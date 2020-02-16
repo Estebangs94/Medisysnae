@@ -1,0 +1,59 @@
+﻿@page
+@model Medisysnae.Pages.Profesionales.RetrieveUserDataModel
+@{
+    ViewData["Title"] = "RetrieveUserData";
+}
+
+@{
+    Layout = null;
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Medisysnae</title>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css" />
+    <environment include="Development">
+
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment exclude="Development">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+    </environment>
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <style>
+
+
+        .nav li a {
+            color: #FFF;
+        }
+    </style>
+</head>
+<div style="padding-left:20px">
+    <h1>Recuperación de cuenta</h1>
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post">
+                <div class="form-group">
+                    <p> Para recuperar los datos de su cuenta, porfavor ingrese su dirección de correo electrónico y a continuación le enviaremos un email con sus datos</p>
+                </div>
+                <div class="form-group">
+                    <span class="col-form-label">Email: </span>
+                    <input class="form-control" type="email" asp-for="NombreUsuario" />
+                    <br />
+                    <input asp-page-handler="Recuperar" type="submit" class="btn btn-primary" value="Recuperar" />
+                </div>
+                <div class="form-group">
+                    <a asp-page="/Index">Salir</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
