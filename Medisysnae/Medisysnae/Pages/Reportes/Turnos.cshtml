@@ -202,21 +202,25 @@
                     {
                         if (item.EstadoString == "Bloqueado")
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FechaTurnoString)
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.EstadoString)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.LugarAtencion)
-                                </td>
-                            </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaTurnoString)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HoraComienzo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HoraFin)
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EstadoString)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LugarAtencion)
+                        </td>
+                    </tr>
                         }
                         else
                         {

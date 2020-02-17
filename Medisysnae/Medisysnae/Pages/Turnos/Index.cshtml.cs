@@ -71,6 +71,18 @@ namespace Medisysnae.Pages.Turnos
             return Page();
         }
 
+        public async Task<IActionResult> OnPostEliminar(int id)
+        {
+            TurnoToUpdate = await _context.Turno.SingleOrDefaultAsync(t => t.ID == id);
+            TurnoToUpdate.EstaActivo = false;
+            _context.Attach(TurnoToUpdate).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            await CargarTurnos(TurnoToUpdate.FechaTurno.Date);
+
+            return Page();
+        }
+
         private async Task<IActionResult> CargarTurnos(DateTime date)
         {
             string NombreUsuarioActual = HttpContext.Session.GetString("NombreUsuarioActual");

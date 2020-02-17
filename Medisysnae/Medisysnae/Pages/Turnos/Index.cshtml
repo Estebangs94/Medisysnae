@@ -881,7 +881,9 @@
                         <td style="background-color:gray"></td>
                         <td style="background-color:gray"></td>
                         <td style="background-color:gray">Bloqueado</td>
-                        <td style="background-color:gray"></td>
+                        <td style="background-color:gray">
+                            <input asp-route-id="@item.ID" type="submit" class="btn btn-secondary" value="Eliminar" asp-page-handler="Eliminar" />
+                        </td>
                     </tr>
                 }
                 else if (item.EstadoString == "Atendido" || item.EstadoString == "Cancelado")
@@ -905,7 +907,9 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.EstadoString)
                         </td>
-                        <td></td>
+                        <td>
+                            <input asp-route-id="@item.ID" type="submit" class="btn btn-secondary" value="Eliminar" asp-page-handler="Eliminar" />
+                        </td>
                     </tr>
                 }
                 else
@@ -930,10 +934,9 @@
                             @Html.DisplayFor(modelItem => item.EstadoString)
                         </td>
                         <td>
-                            <input asp-route-id="@item.ID" type="submit" class="btn btn-success" value="Atender" asp-page-handler="Atender" />
-                            <a asp-page="./Index" asp-page-handler="Atender" asp-route-id="@item.ID"> TEST</a>
-
-                            <input type="submit" class="btn btn-danger" value="Cancelar" asp-page-handler="Cancelar" />
+                            <input asp-route-id="@item.ID" type="submit" class="btn btn-secondary" value="Atender" asp-page-handler="Atender" />
+                            <input type="submit" class="btn btn-secondary" value="Cancelar" asp-page-handler="Cancelar" />
+                            <input asp-route-id="@item.ID" type="submit" class="btn btn-secondary" value="Eliminar" asp-page-handler="Eliminar" />
                             <input type="hidden" name="id" value="@item.ID" />
                         </td>
                     </tr>
