@@ -124,6 +124,16 @@ namespace Medisysnae.Pages.Profesionales
 
         public async Task<IActionResult> OnPostAgregarLugarAtencion()
         {
+
+            if (string.IsNullOrEmpty(AregarLugarAtencion))
+            {
+                ModelState.Remove("Profesional.Password");
+                ModelState.AddModelError("LugarVacio", $"No puede agregar como lugar de atención el valor vacío '   '");
+                await cargarLugaresAtencion();
+                await CargarUsuarioActual();
+                return Page();
+            }
+
             IList<LugaresAtencion> lugares = await _context.LugaresAtencion
                                             .Where(l => l.EstaActivo && l.UsuarioProfesional == Profesional.NombreUsuario)
                                             .ToListAsync();
